@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { catchError } from 'rxjs/internal/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, catchError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 
@@ -115,10 +116,16 @@ export class fetchJeriflixAPI {
     return body || {};
   }
 
-  //errors.
-  private handleError(error: any) {
-    console.error('API Error:', error);
-    return throwError(error);
+  //errors
+  private handleError(error: HttpErrorResponse): any {
+    if (error.error instanceof ErrorEvent) {
+    console.error('Some error occurred:', error.error.message);
+    } else {
+    console.error(
+        `Error Status code ${error.status}, ` +
+        `Error body is: ${error.error}`);
+    }
+    return throwError(
+    'Something bad happened; please try again later.');
   }
-
 }
