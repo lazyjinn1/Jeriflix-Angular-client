@@ -9,6 +9,7 @@ const apiUrl = 'https://jeriflix.onrender.com/'
 @Injectable({
   providedIn: 'root'
 })
+
 export class fetchJeriflixAPI {
 
   constructor(private http: HttpClient) {
@@ -30,7 +31,7 @@ export class fetchJeriflixAPI {
   }
 
   //movies
-  getAllMovies(): Observable<any> {
+  getAllMoviesService(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'movies', {
       headers: new HttpHeaders({
