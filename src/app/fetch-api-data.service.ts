@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/internal/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 
 const apiUrl = 'https://jeriflix.onrender.com/'
@@ -18,15 +17,15 @@ export class fetchJeriflixAPI {
   }
 
   //register
-  public userRegistrationService(userDetails: any): Observable<any> {
-    return this.http.post(apiUrl + 'users', userDetails).pipe(
+  public userRegistrationService(userData: any): Observable<any> {
+    return this.http.post(apiUrl + 'users', userData).pipe(
       catchError(this.handleError)
     );
   }
 
   //login
-  public userLoginService(userDetails: any): Observable<any> {
-    return this.http.post(apiUrl + 'login', userDetails).pipe(
+  public userLoginService(userData: any): Observable<any> {
+    return this.http.post(apiUrl + 'login', userData).pipe(
       catchError(this.handleError)
     );
   }
@@ -37,14 +36,12 @@ export class fetchJeriflixAPI {
     return this.http.get(apiUrl + 'movies', {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
-      }),
+      })
     }).pipe(
       map(this.extractResponseData),
       catchError(this.handleError)
     );
   }
-
-
 
   //one movie
   getOneMovieService(movieId: string): Observable<any> {
@@ -90,8 +87,8 @@ export class fetchJeriflixAPI {
   }
 
   //edit a user
-  editUserService(userId: string, userDetails: any): Observable<any> {
-    return this.http.put(apiUrl + 'users/' + userId, userDetails).pipe(
+  editUserService(userId: string, userData: any): Observable<any> {
+    return this.http.put(apiUrl + 'users/' + userId, userData).pipe(
       catchError(this.handleError)
     );
   }
@@ -119,13 +116,12 @@ export class fetchJeriflixAPI {
   //errors
   private handleError(error: HttpErrorResponse): any {
     if (error.error instanceof ErrorEvent) {
-    console.error('Some error occurred:', error.error.message);
+      console.error('Some error occurred:', error.error.message);
     } else {
-    console.error(
+      console.error(
         `Error Status code ${error.status}, ` +
-        `Error body is: ${error.error}`);
+        `Error body is: ${JSON.stringify(error.error)}`);
     }
-    return throwError(
-    'Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.');
   }
 }
