@@ -16,6 +16,18 @@ export class fetchJeriflixAPI {
 
   }
 
+  //errors
+  private handleError(error: HttpErrorResponse): any {
+    if (error.error instanceof ErrorEvent) {
+      console.error('Some error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Error Status code ${error.status}, ` +
+        `Error body is: ${JSON.stringify(error.error)}`);
+    }
+    return throwError('Something bad happened; please try again later.');
+  }
+
   //register
   public userRegistrationService(userData: any): Observable<any> {
     return this.http.post(apiUrl + 'users', userData).pipe(
@@ -113,15 +125,5 @@ export class fetchJeriflixAPI {
     return body || {};
   }
 
-  //errors
-  private handleError(error: HttpErrorResponse): any {
-    if (error.error instanceof ErrorEvent) {
-      console.error('Some error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Error Status code ${error.status}, ` +
-        `Error body is: ${JSON.stringify(error.error)}`);
-    }
-    return throwError('Something bad happened; please try again later.');
-  }
+
 }

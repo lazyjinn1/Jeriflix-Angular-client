@@ -37,6 +37,7 @@ export class UserRegistrationFormComponent implements OnInit {
         duration: 2000
       });
     }, (error) => {
+      console.error(error); 
       this.snackBar.open(error, 'OK', {
         duration: 2000
       });
