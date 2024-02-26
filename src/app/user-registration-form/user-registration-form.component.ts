@@ -33,12 +33,13 @@ export class UserRegistrationFormComponent implements OnInit {
     this.fetchApiData.userRegistrationService(this.userData).subscribe((response) => {
       // Logic for a successful user registration goes here! (To be implemented)
       this.dialogRef.close(); // This will close the modal on success!
-      this.snackBar.open(response, 'OK', {
+      console.log(response);
+      this.snackBar.open('user has successfully been registered!', 'OK', {
         duration: 2000
       });
-    }, (error) => {
-      console.error(error); 
-      this.snackBar.open(error, 'OK', {
+    }, (response) => {
+      console.error(response); 
+      this.snackBar.open(response, 'OK', {
         duration: 2000
       });
     });

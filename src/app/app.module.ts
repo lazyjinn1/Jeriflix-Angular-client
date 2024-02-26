@@ -1,3 +1,5 @@
+import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
+import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,8 +14,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 
-import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
-import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [

@@ -25,7 +25,7 @@ export class fetchJeriflixAPI {
         `Error Status code ${error.status}, ` +
         `Error body is: ${JSON.stringify(error.error)}`);
     }
-    return throwError('Something bad happened; please try again later.');
+    return throwError('Something went wrong. Error code: ' + error.status);
   }
 
   //register
