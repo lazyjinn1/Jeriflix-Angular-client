@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,6 +23,7 @@ import { UserLoginFormComponent } from './user-login-form/user-login-form.compon
     UserLoginFormComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -32,11 +33,9 @@ import { UserLoginFormComponent } from './user-login-form/user-login-form.compon
     MatFormFieldModule,
     MatDialogModule,
     MatSnackBarModule,
-    FormsModule
+    BrowserAnimationsModule
   ],
-  providers: [
-    provideAnimationsAsync()
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

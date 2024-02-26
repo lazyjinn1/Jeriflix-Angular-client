@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, throwError, catchError } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
-const apiUrl = 'https://jeriflix.onrender.com/'
+const apiUrl = 'https://jeriflix.onrender.com/';
 
 @Injectable({
   providedIn: 'root'

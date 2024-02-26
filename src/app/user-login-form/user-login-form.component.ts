@@ -30,7 +30,6 @@ export class UserLoginFormComponent {
 
   logInUser(): void {
     this.fetchApiData.userLoginService(this.userData).subscribe((response) => {
-      // Logic for a successful user registration goes here! (To be implemented)
       this.dialogRef.close(); // This will close the modal on success!
       console.log(response);
       localStorage.setItem('user', JSON.stringify(response.user));
