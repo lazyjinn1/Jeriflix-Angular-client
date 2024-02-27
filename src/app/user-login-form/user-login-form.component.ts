@@ -10,20 +10,23 @@ import { fetchJeriflixAPI } from '../fetch-api-data.service';
 // This import is used to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-login-form',
   templateUrl: './user-login-form.component.html',
   styleUrl: './user-login-form.component.scss'
 })
-export class UserLoginFormComponent {
+export class UserLoginFormComponent implements OnInit{
 
   @Input() userData = { Username: '', Password: '' };
 
   constructor(
     public fetchApiData: fetchJeriflixAPI,
     public dialogRef: MatDialogRef<UserLoginFormComponent>,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
   }
@@ -37,6 +40,7 @@ export class UserLoginFormComponent {
       this.snackBar.open('Login successful', 'OK', {
         duration: 2000
       });
+      this.router.navigate(['movies']);
     }, (response) => {
       console.error(response);
       this.snackBar.open(response, 'OK', {
