@@ -18,7 +18,7 @@ export class fetchJeriflixAPI {
 
   //register
   public userRegistrationService(userData: any): Observable<any> {
-    return this.http.post(apiUrl + 'users', userData).pipe(
+    return this.http.post('https://jeriflix.onrender.com/users', userData, {responseType: 'text'}).pipe(
       catchError(this.handleError)
     );
   }
@@ -115,7 +115,11 @@ export class fetchJeriflixAPI {
 
   //errors
   private handleError(error: HttpErrorResponse): any {
-    if (error.error instanceof ErrorEvent) {
+    if (error.status === 201) {
+      // Consider logging or handling the 'successful' creation case differently
+      console.log('Resource created successfully', error.message);
+      return throwError('Resource created successfully but interpreted as an error. Status code: ' + error.status);
+    }else if(error.error instanceof ErrorEvent) {
       console.error('Some error occurred:', error.error.message);
     } else {
       console.error(
