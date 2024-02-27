@@ -18,14 +18,14 @@ export class fetchJeriflixAPI {
 
   //register
   public userRegistrationService(userData: any): Observable<any> {
-    return this.http.post('https://jeriflix.onrender.com/users', userData, {responseType: 'text'}).pipe(
+    return this.http.post(apiUrl + 'users', userData, {responseType: 'text'}).pipe(
       catchError(this.handleError)
     );
   }
 
   //login
   public userLoginService(userData: any): Observable<any> {
-    return this.http.post(apiUrl + 'login', userData).pipe(
+    return this.http.post(apiUrl + 'login', userData, {responseType: 'text'}).pipe(
       catchError(this.handleError)
     );
   }
@@ -36,7 +36,8 @@ export class fetchJeriflixAPI {
     return this.http.get(apiUrl + 'movies', {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
-      })
+      }),
+      withCredentials: true
     }).pipe(
       map(this.extractResponseData),
       catchError(this.handleError)
@@ -66,7 +67,7 @@ export class fetchJeriflixAPI {
 
   //users
   getUserService(userId: string): Observable<any> {
-    return this.http.get(apiUrl + 'users/' + userId).pipe(
+    return this.http.get(apiUrl + 'users' + userId).pipe(
       catchError(this.handleError)
     );
   }
@@ -116,9 +117,8 @@ export class fetchJeriflixAPI {
   //errors
   private handleError(error: HttpErrorResponse): any {
     if (error.status === 201) {
-      // Consider logging or handling the 'successful' creation case differently
       console.log('Resource created successfully', error.message);
-      return throwError('Resource created successfully but interpreted as an error. Status code: ' + error.status);
+      return throwError(()=>'Resource created successfully but interpreted as an error. Status code: ' + error.status);
     }else if(error.error instanceof ErrorEvent) {
       console.error('Some error occurred:', error.error.message);
     } else {
@@ -126,7 +126,7 @@ export class fetchJeriflixAPI {
         `Error Status code ${error.status}, ` +
         `Error body is: ${JSON.stringify(error.error)}`);
     }
-    return throwError('Something went wrong. Error code: ' + error.status);
+    return throwError(()=>'Something went wrong. Error code: ' + error.status);
   }
 
 }

@@ -33,7 +33,7 @@ export class UserLoginFormComponent implements OnInit{
 
   logInUser(): void {
     this.fetchApiData.userLoginService(this.userData).subscribe((response) => {
-      this.dialogRef.close(); // This will close the modal on success!
+      this.dialogRef.close();
       console.log(response);
       localStorage.setItem('user', JSON.stringify(response.user));
       localStorage.setItem('token', response.token);

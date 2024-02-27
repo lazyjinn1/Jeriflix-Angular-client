@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { fetchJeriflixAPI } from '../fetch-api-data.service'
 
 @Component({
@@ -20,6 +20,6 @@ export class MovieCardComponent {
       this.movies = response;
       console.log(this.movies);
       return this.movies;
-    })
-  }
+    });
+  };
 }
