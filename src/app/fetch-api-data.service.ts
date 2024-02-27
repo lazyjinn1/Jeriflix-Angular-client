@@ -25,7 +25,7 @@ export class fetchJeriflixAPI {
 
   //login
   public userLoginService(userData: any): Observable<any> {
-    return this.http.post(apiUrl + 'login', userData, {responseType: 'text'}).pipe(
+    return this.http.post(apiUrl + 'login', userData).pipe(
       catchError(this.handleError)
     );
   }
