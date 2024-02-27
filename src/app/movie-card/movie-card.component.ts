@@ -22,5 +22,4 @@ export class MovieCardComponent {
       return this.movies;
     })
   }
-
 }
