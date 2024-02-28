@@ -1,17 +1,26 @@
-<div class = "Movie-Body">
+<div class="Movie-Body">
 
   <div class="Jeriflix-Title">
     <h1 id="Jeriflix-Title">Welcome to Jeriflix</h1>
+    <button mat-raised-button (click)="goToUserProfile(user.Username)">Profile</button>
   </div>
 
   <owl-carousel-o class="carousel-container" [options]="customOptions">
     <ng-container *ngFor="let movie of movies">
-      <ng-template carouselSlide [id]="movie._id">
-        <img [src]="movie.ImagePath" [alt]="movie.Title" [title]="movie.Title">
-        <mat-card-title>{{movie.Title}}<br></mat-card-title>
-        <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
+      <ng-template carouselSlide [id]="movie?._id">
+
+        <mat-card-actions>
+          <button color="primary" (click)="getOneMovie(movie?.Title)">
+            <img [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
+          </button>
+          <mat-icon>favorite_border</mat-icon>
+        </mat-card-actions>
+
+        <mat-card-title>{{movie?.Title}}<br></mat-card-title>
+        <mat-card-subtitle>Directed by: {{movie?.Director.Name}}</mat-card-subtitle>
+
       </ng-template>
     </ng-container>
   </owl-carousel-o>
-  
+
 </div>

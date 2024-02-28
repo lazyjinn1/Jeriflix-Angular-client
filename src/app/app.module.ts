@@ -17,15 +17,22 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule } from '@angular/forms';
+
 import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { CarouselComponent } from './carousel/carousel.component';
-
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { GenreComponent } from './genre/genre.component';
+import { DirectorComponent } from './director/director.component';
+import { MovieSplashComponent } from './movie-splash/movie-splash.component';
+import { ProfileComponent } from './profile/profile.component';
+
+
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
   { path: 'movies', component: CarouselComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
 ];
 
@@ -36,6 +43,10 @@ const appRoutes: Routes = [
     UserLoginFormComponent,
     WelcomePageComponent,
     CarouselComponent,
+    GenreComponent,
+    DirectorComponent,
+    MovieSplashComponent,
+    ProfileComponent,
   ],
   imports: [
     FormsModule,
@@ -49,6 +60,7 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,
+    MatDialogModule,
     BrowserAnimationsModule,
     CarouselModule,
     RouterModule.forRoot(appRoutes)

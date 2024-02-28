@@ -45,8 +45,16 @@ export class fetchJeriflixAPI {
   }
 
   //one movie
-  getOneMovieService(movieId: string): Observable<any> {
-    return this.http.get(apiUrl + 'movies/' + movieId).pipe(
+  getOneMovieService(title: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log(apiUrl+'movies/' + title);
+    return this.http.get(apiUrl + 'movies/' + title, {
+      
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    }).pipe(
+      map(this.extractResponseData),
       catchError(this.handleError)
     );
   }
@@ -59,51 +67,51 @@ export class fetchJeriflixAPI {
   }
 
   //genres
-  getGenreService(genreId: string): Observable<any> {
-    return this.http.get(apiUrl + 'genres/' + genreId).pipe(
+  getGenreService(genreName: string): Observable<any> {
+    return this.http.get(apiUrl + 'genres/' + genreName).pipe(
       catchError(this.handleError)
     );
   }
 
   //users
-  getUserService(userId: string): Observable<any> {
-    return this.http.get(apiUrl + 'users' + userId).pipe(
+  getUserService(userName: string): Observable<any> {
+    return this.http.get(apiUrl + 'users/' + userName).pipe(
       catchError(this.handleError)
     );
   }
 
   //favorite movies
-  getFavouriteMoviesService(userId: string): Observable<any> {
-    return this.http.get(apiUrl + 'users/' + userId + '/favorites').pipe(
+  getFavouriteMoviesService(userName: string): Observable<any> {
+    return this.http.get(apiUrl + 'users/' + userName + '/favorites').pipe(
       catchError(this.handleError)
     );
   }
 
   //add to favorites
-  addMovieToFavouritesService(userId: string, movieId: string): Observable<any> {
-    const body = { movieId: movieId };
-    return this.http.post(apiUrl + 'users/' + userId + '/favorites', body).pipe(
+  addMovieToFavouritesService(userName: string, movieName: string): Observable<any> {
+    const body = { movieName: movieName };
+    return this.http.post(apiUrl + 'users/' + userName + '/favorites', body).pipe(
       catchError(this.handleError)
     );
   }
 
   //edit a user
-  editUserService(userId: string, userData: any): Observable<any> {
-    return this.http.put(apiUrl + 'users/' + userId, userData).pipe(
+  editUserService(userName: string, userData: any): Observable<any> {
+    return this.http.put(apiUrl + 'users/' + userName, userData).pipe(
       catchError(this.handleError)
     );
   }
 
   //delete a user
-  deleteUserService(userId: string): Observable<any> {
-    return this.http.delete(apiUrl + 'users/' + userId).pipe(
+  deleteUserService(userName: string): Observable<any> {
+    return this.http.delete(apiUrl + 'users/' + userName).pipe(
       catchError(this.handleError)
     );
   }
 
   //delete a favorite movie
-  deleteMovieFromFavouritesService(userId: string, movieId: string): Observable<any> {
-    return this.http.delete(apiUrl + 'users/' + userId + '/favorites/' + movieId).pipe(
+  deleteMovieFromFavouritesService(userName: string, movieName: string): Observable<any> {
+    return this.http.delete(apiUrl + 'users/' + userName + '/favorites/' + movieName).pipe(
       catchError(this.handleError)
     );
   }
