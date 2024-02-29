@@ -2,28 +2,42 @@
   <div class="Jeriflix-Title">
     <h1 id="Jeriflix-Title">Welcome to Jeriflix</h1>
   </div>
-  
-  <mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
-
-  <owl-carousel-o class="carousel-container" [options]="customOptions">
-    
-    <ng-container class = "carousel-container" *ngFor="let movie of movies">
-      <ng-template carouselSlide [id]="movie?._id">
-        
-          <button class="movie-button" color="primary" (click)="openMovieDialog(movie?.Title)">
-            <img [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
-          </button>
-
-      </ng-template>
-    </ng-container>
-  </owl-carousel-o>
 
   <button mat-fab class="profile-fab" [matMenuTriggerFor]="menu">
     +
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="goToUserProfile()"> Profile</button>
       <button mat-menu-item (click)="logOut()">Logout</button>
+      <button mat-menu-item (click)="closeSideNav()">close sidenav</button>
     </mat-menu>
   </button>
 
+  <mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading"
+    mode="indeterminate"></mat-progress-spinner>
+
+  <owl-carousel-o #owlCarousel class="carousel-container" [options]="customOptions" (changed)="onSlideChanged()">
+    <ng-container *ngFor="let movie of movies let i = index">
+      <ng-template carouselSlide [id]="movie?._id">
+        <mat-drawer-container id="mat-drawer-container" hasBackdrop="false">
+          <mat-drawer-content [ngClass]="{'sideDrawersOut': sideDrawersOpened}">
+            <button class="movie-button" (click)="openMovieDialog(movie.Title, i)">
+              <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
+            </button>
+          </mat-drawer-content>
+
+          <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]"
+            autoFocus="false">
+            <h1>{{movie?.Title}} <mat-icon>favorite_border</mat-icon></h1>
+            <p>{{movie?.Description}}</p> <br>
+            <h3>Directed by: <button color="primary" mat-stroked-button>{{movie?.Director.Name}}</button></h3>
+            <p>{{movie?.Director.Bio}}</p> <br>
+            <h3>Genre: <button color="primary" mat-stroked-button>{{movie?.Genre.Name}}</button></h3>
+            <p>{{movie?.Genre.Description}}</p> <br>
+            
+          </mat-drawer>
+
+        </mat-drawer-container>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
 </div>

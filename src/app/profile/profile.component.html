@@ -2,21 +2,53 @@
     mode="indeterminate"></mat-progress-spinner>
 
 <div class="profile-page">
-    <div class="favorite-movies">
-        <mat-list>
-            <button mat-list-item *ngFor="let favMovie of favoriteMovies" class="movie-button" color="primary"
-                (click)="openMovieDialog(favMovie?.Title)">
-                <img [src]="favMovie?.ImagePath" [alt]="favMovie?.Title" [title]="favMovie?.Title">
+    <owl-carousel-o #owlCarousel class="favorite-movies" [options]="customOptions" (changed)="onSlideChanged()">
+        <ng-container *ngFor="let movie of favoriteMovies let i = index">
+            <ng-template carouselSlide [id]="movie?._id">
+                <mat-drawer-container id="mat-drawer-container" hasBackdrop="false">
+                    <mat-drawer-content [ngClass]="{'sideDrawersOut': sideDrawersOpened}">
+                        <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
+                    </mat-drawer-content>
+
+                    <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]"
+                        autoFocus="false">
+                        <h1>{{movie?.Title}} </h1>
+                        <p>{{movie?.Description}}</p> <br>
+                        <h3>Directed by: <button>{{movie?.Director.Name}}</button></h3>
+                        <p>{{movie?.Director.Bio}}</p> <br>
+                        <h3>Genre: <button>{{movie?.Genre.Name}}</button></h3>
+                        <p>{{movie?.Genre.Description}}</p> <br>
+                        <mat-icon>favorite_border</mat-icon>
+                    </mat-drawer>
+
+                </mat-drawer-container>
+            </ng-template>
+        </ng-container>
+    </owl-carousel-o>
+    <mat-card>
+        <mat-card-title>Welcome to my page!</mat-card-title>
+        <mat-card-content>
+            <div>
+                Username: {{user.Username}} <br>
+                Email: {{user.Email}} <br>
+                Birthday: {{user.Birth | date:'longDate'}}<br>
+                Bio: {{user.Bio}}<br>
+            </div>
+            
+            <div>
+                <img mat-card-md-image src="{{user.ProfilePicture}}">
+            </div>
+            
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button (click)="updateUser()" color="primary" style="margin: 20px;">
+                Update User
             </button>
-        </mat-list>
-    </div>
-    <div class="profile-card">
-        <mat-card-title-group>
-            <img mat-card-md-image src="{{user.ProfilePicture}}">
-            <mat-card-title>{{user.Username}}</mat-card-title>
-            <mat-card-subtitle>{{user.Bio}}</mat-card-subtitle>
-        </mat-card-title-group>
-    </div>
+            <button mat-raised-button color="primary" (click)="deleteUser()" style="margin: 20px;">
+                Delete Account
+            </button>
+        </mat-card-actions>
+    </mat-card>
     <button mat-fab class="profile-fab" [matMenuTriggerFor]="menu">
         +
         <mat-menu #menu="matMenu">

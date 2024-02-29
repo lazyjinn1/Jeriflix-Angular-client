@@ -19,9 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFabButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatRippleModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSidenavModule } from '@angular/material/sidenav'; 
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,13 +29,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
 import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
 import { CarouselComponent } from './carousel/carousel.component';
-import { MovieSplashComponent } from './movie-splash/movie-splash.component';
-import { GenreComponent } from './genre/genre.component';
-import { DirectorComponent } from './director/director.component';
 import { ProfileComponent } from './profile/profile.component';
-
-
-
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
@@ -52,10 +45,7 @@ const appRoutes: Routes = [
     UserLoginFormComponent,
     WelcomePageComponent,
     CarouselComponent,
-    GenreComponent,
-    DirectorComponent,
     ProfileComponent,
-    MovieSplashComponent,
   ],
   imports: [
     FormsModule,
@@ -74,9 +64,8 @@ const appRoutes: Routes = [
     MatMenuModule,
     MatListModule,
     BrowserAnimationsModule,
+    MatSidenavModule,
     CarouselModule,
-    MatExpansionModule,
-    MatRippleModule,
     MatProgressSpinnerModule,
     RouterModule.forRoot(appRoutes)
   ],

@@ -136,5 +136,4 @@ export class fetchJeriflixAPI {
     }
     return throwError(()=>'Something went wrong. Error code: ' + error.status);
   }
-
 }

@@ -3,9 +3,6 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 import { fetchJeriflixAPI } from '../fetch-api-data.service'
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MovieSplashComponent } from '../movie-splash/movie-splash.component';
-// import { GenreComponent } from '../genre/genre.component';
-// import { DirectorComponent } from '../director/director.component';
 
 
 
@@ -18,6 +15,10 @@ import { MovieSplashComponent } from '../movie-splash/movie-splash.component';
 export class CarouselComponent {
 
   loading: boolean = true;
+
+  events: string[] = [];
+  sideNavStates: boolean[] = [];
+  sideDrawersOpened: boolean = false;
 
   movies: any[] = [];
   movie: any;
@@ -35,13 +36,18 @@ export class CarouselComponent {
   customOptions: OwlOptions = {
     loop: true,
     dots: true,
-    mouseDrag: false,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
     slideTransition: 'linear',
-    navSpeed: 300,
+    navSpeed: 200,
     navText: ['Previous', 'Next'] ,
-    margin: 15,
+    margin: 0,
     center: true,
     slideBy: 1,
+    mergeFit: true,
+    autoHeight: false,
+    autoWidth: false,
     animateOut: true,
     animateIn: true,
     responsive: {
@@ -60,6 +66,9 @@ export class CarouselComponent {
       1180: {
         items: 5
       },
+      1360: {
+        items: 6
+      },
     },
     nav: true
   }
@@ -73,20 +82,17 @@ export class CarouselComponent {
     this.fetchAPI.getAllMoviesService().subscribe((response: any) => {
       this.movies = response;
       this.loading = false;
-      return this.movies;
+      this.sideNavStates = new Array(this.movies.length).fill(false);
     });
   };
 
-  openMovieDialog(movieName: string): void {
+  openMovieDialog(movieName: string, index: number): void {
     this.fetchAPI.getOneMovieService(movieName).subscribe((response: any) => {
-      console.log(response);
       this.movie = response;
-      this.dialogRef.open(MovieSplashComponent, {
-        data: this.movie,
-        width: '700px'
-      });
+      console.log(response);
+      this.sideNavStates = this.sideNavStates.map((state, i) => i === index);
+      this.sideDrawersOpened = true;
     })
-   
   }
 
   goToUserProfile(): void {
@@ -99,4 +105,11 @@ export class CarouselComponent {
     this.router.navigate(['welcome']);
   }
 
+  closeSideNav(): void {
+    this.sideNavStates = new Array(this.movies.length).fill(false);
+  }
+
+  onSlideChanged(): void {
+    this.sideNavStates.fill(false);
+  }
 }
