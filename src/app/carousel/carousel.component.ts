@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { fetchJeriflixAPI } from '../fetch-api-data.service'
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MovieSplashComponent } from '../movie-splash/movie-splash.component';
 // import { GenreComponent } from '../genre/genre.component';
 // import { DirectorComponent } from '../director/director.component';
-import { ProfileComponent } from '../profile/profile.component';
-import { MovieSplashComponent } from '../movie-splash/movie-splash.component';
-import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 
 export class CarouselComponent {
 
+  loading: boolean = true;
+
   movies: any[] = [];
   movie: any;
   user: any;
@@ -25,21 +27,21 @@ export class CarouselComponent {
     public fetchAPI: fetchJeriflixAPI,
     public dialogRef: MatDialog,
     private router: Router
-  ) { 
+  ) {
     this.user = {};
   }
+  
 
   customOptions: OwlOptions = {
     loop: true,
-    mouseDrag: true,
-    touchDrag: true,
-    pullDrag: true,
     dots: true,
-    navSpeed: 500,
-    navText: ['Previous', 'Next'],
+    mouseDrag: false,
+    slideTransition: 'linear',
+    navSpeed: 300,
+    navText: ['Previous', 'Next'] ,
     margin: 15,
     center: true,
-    slideBy: 3,
+    slideBy: 1,
     animateOut: true,
     animateIn: true,
     responsive: {
@@ -64,57 +66,37 @@ export class CarouselComponent {
 
   ngOnInit(): void {
     this.getMovies();
-
   }
 
   getMovies(): void {
+    this.loading = true;
     this.fetchAPI.getAllMoviesService().subscribe((response: any) => {
       this.movies = response;
-      console.log(this.movies);
+      this.loading = false;
       return this.movies;
     });
   };
 
-  getOneMovie(movieName: string): void {
+  openMovieDialog(movieName: string): void {
     this.fetchAPI.getOneMovieService(movieName).subscribe((response: any) => {
       console.log(response);
       this.movie = response;
       this.dialogRef.open(MovieSplashComponent, {
-        width: '600px',
-        data: { movie: this.movie }
+        data: this.movie,
+        width: '700px'
       });
     })
+   
   }
 
-  goToUserProfile(userName: string): void {
-    this.user = localStorage.getItem('user');
-    console.log(this.user);
-    this.fetchAPI.getUserService(userName).subscribe((response: any) => {
-      console.log(response);
-      this.user = response;
-      this.router.navigate(['profile']);
-    })
+  goToUserProfile(): void {
+    this.router.navigate(['profile']);
   }
 
-  // getGenre(movieId: string): void {
-  //   this.fetchAPI.getGenreService(movieId).subscribe((response: any) => {
-  //     this.dialogRef.open(GenreComponent, {
-  //       width: '280px'
-  //     });
-  //     this.movies = response;
-  //     console.log(this.movies)
-  //     return this.movies;
-  //   })
-  // }
+  logOut(): void {
+    localStorage.setItem('user', '');
+    localStorage.setItem('token', '');
+    this.router.navigate(['welcome']);
+  }
 
-  // getDirector(movieId: string): void {
-  //   this.fetchAPI.getDirectorService(movieId).subscribe((response: any) => {
-  //     this.dialogRef.open(DirectorComponent, {
-  //       width: '280px'
-  //     });
-  //     this.movies = response;
-  //     console.log(this.movies)
-  //     return this.movies;
-  //   })
-  // }
 }

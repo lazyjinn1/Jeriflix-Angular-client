@@ -47,7 +47,7 @@ export class fetchJeriflixAPI {
   //one movie
   getOneMovieService(title: string): Observable<any> {
     const token = localStorage.getItem('token');
-    console.log(apiUrl+'movies/' + title);
+    console.log(apiUrl + 'movies/' + `${title}`);
     return this.http.get(apiUrl + 'movies/' + title, {
       
       headers: new HttpHeaders({

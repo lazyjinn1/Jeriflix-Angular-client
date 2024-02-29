@@ -1,12 +1,52 @@
-.Movie-Body{
-    width: 100%;
-    overflow-x: hidden;
-
-}
-
-
-.Jeriflix-Title{
+.Movie-Body {
     position: relative;
-    overflow-x: hidden;
-    left: 40%;
+    overflow: hidden;
 }
+
+.Jeriflix-Title {
+    position: relative;
+    left: 40%;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    color: white;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 1.5s ease;
+}
+
+.profile-fab {
+    float: right;
+}
+
+.movie-button {
+    transition: transform 0.5s ease;
+    position: relative;
+    z-index: 1;
+    border-radius:20ps;
+}
+
+.movie-button:hover {
+    cursor: pointer;
+    z-index: 2;
+}
+
+.carousel-container {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+

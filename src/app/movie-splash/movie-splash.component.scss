@@ -1,4 +1,13 @@
-.movieCard{
-    left: 50%;
-    top: 50%;
-}
+/* movie-splash.component.scss */
+
+/* Example: Style the title */
+.mat-card-title {
+    color: #333;
+    font-size: 24px;
+  }
+  
+  /* Example: Style the movie description */
+  .movie-description {
+    font-size: 16px;
+    margin-top: 10px;
+  }

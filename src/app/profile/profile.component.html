@@ -1,1 +1,27 @@
-<p>profile works!</p>
+<mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading"
+    mode="indeterminate"></mat-progress-spinner>
+
+<div class="profile-page">
+    <div class="favorite-movies">
+        <mat-list>
+            <button mat-list-item *ngFor="let favMovie of favoriteMovies" class="movie-button" color="primary"
+                (click)="openMovieDialog(favMovie?.Title)">
+                <img [src]="favMovie?.ImagePath" [alt]="favMovie?.Title" [title]="favMovie?.Title">
+            </button>
+        </mat-list>
+    </div>
+    <div class="profile-card">
+        <mat-card-title-group>
+            <img mat-card-md-image src="{{user.ProfilePicture}}">
+            <mat-card-title>{{user.Username}}</mat-card-title>
+            <mat-card-subtitle>{{user.Bio}}</mat-card-subtitle>
+        </mat-card-title-group>
+    </div>
+    <button mat-fab class="profile-fab" [matMenuTriggerFor]="menu">
+        +
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openMovieList()">Home</button>
+            <button mat-menu-item (click)="logOut()">Logout</button>
+        </mat-menu>
+    </button>
+</div>

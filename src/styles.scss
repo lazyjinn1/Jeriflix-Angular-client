@@ -47,7 +47,31 @@ html, body { height: 100%; }
 body { 
   margin: 0; 
   font-family: Roboto, "Helvetica Neue", sans-serif; 
+  background-image: linear-gradient(black, green,white,white,white, white, green, green, black)
 }
 
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+.owl-item{
+  transition: all .8s ease;
+}
+
+.owl-item.active.center {
+  transform: scale(1.2);
+  margin-right: 20px;
+}
+
+.owl-item:not(.active.center) {
+  pointer-events: none;
+  opacity: 50%;
+}
+
+.owl-stage{
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.owl-theme .owl-nav [class*='owl-']{
+  color: black;
+}
