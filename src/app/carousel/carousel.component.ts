@@ -29,8 +29,7 @@ export class CarouselComponent implements OnInit{
   newFavMovie: any;
   user: any;
   userName: any;
-  filteredMovies: any[] = [];
-
+  
   constructor(
     public fetchAPI: fetchJeriflixAPI,
     public dialogRef: MatDialog,
@@ -83,7 +82,6 @@ export class CarouselComponent implements OnInit{
     this.fetchAPI.getAllMoviesService().subscribe((response: any) => {
       
       this.movies = response;
-      this.filterMovies();
       this.loading = false;
       this.sideNavStates = new Array(this.movies.length).fill(false);
     });
@@ -136,16 +134,9 @@ export class CarouselComponent implements OnInit{
 
   onTypedTextChanged(typedText: string): void {
     this.typedText = typedText;
-    this.filterMovies();
+    this.directToMovie();
   }
 
-  filterMovies(): void {
-    if (!!this.typedText) {
-      this.filteredMovies = this.movies.filter(movie => 
-        movie.Title.toLowerCase().includes(this.typedText.toLowerCase())
-      );
-    } else {
-       this.filteredMovies = this.movies.slice();
-    }
-  }
+  directToMovie():void{}
+
 }

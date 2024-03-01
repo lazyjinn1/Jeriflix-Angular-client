@@ -18,7 +18,7 @@
     mode="indeterminate"></mat-progress-spinner>
 
   <owl-carousel-o #owlCarousel class="carousel-container" [options]="customOptions" (changed)="onSlideChanged()">
-    <ng-container *ngFor="let movie of filteredMovies let i = index">
+    <ng-container *ngFor="let movie of movies let i = index">
       <ng-template carouselSlide [id]="movie?._id">
         <mat-drawer-container id="mat-drawer-container" hasBackdrop="false">
           <mat-drawer-content [ngClass]="{'sideDrawersOut': sideDrawersOpened}">
