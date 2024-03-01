@@ -87,3 +87,17 @@
     width: 200px;
     height: 300px;
 }
+
+
+.typed-text{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    background-color: #ffffffff;
+    padding: 10px;
+    border: 1px solid #00000000;
+    border-radius: 5px;
+    z-index: 1000;
+}

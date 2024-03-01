@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { fetchJeriflixAPI } from '../fetch-api-data.service'
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -12,7 +13,9 @@ import { Router } from '@angular/router';
   styleUrl: './carousel.component.scss'
 })
 
-export class CarouselComponent {
+export class CarouselComponent implements OnInit{
+
+  typedText: string = '';
 
   loading: boolean = true;
 
@@ -21,13 +24,18 @@ export class CarouselComponent {
   sideDrawersOpened: boolean = false;
 
   movies: any[] = [];
+  favoriteMovies: string[] = [];
   movie: any;
+  newFavMovie: any;
   user: any;
+  userName: any;
+  filteredMovies: any[] = [];
 
   constructor(
     public fetchAPI: fetchJeriflixAPI,
     public dialogRef: MatDialog,
-    private router: Router
+    public snackBar: MatSnackBar,
+    public router: Router
   ) {
     this.user = {};
   }
@@ -45,7 +53,6 @@ export class CarouselComponent {
     margin: 0,
     center: true,
     slideBy: 1,
-    mergeFit: true,
     autoHeight: false,
     autoWidth: false,
     animateOut: true,
@@ -66,15 +73,19 @@ export class CarouselComponent {
       1180: {
         items: 5
       },
-      1360: {
-        items: 6
-      },
     },
-    nav: true
+    nav: true,
   }
 
   ngOnInit(): void {
-    this.getMovies();
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      this.user = JSON.parse(userString);
+
+      this.getMovies();
+      
+      this.loading = false;
+    }
   }
 
   getMovies(): void {
@@ -111,5 +122,38 @@ export class CarouselComponent {
 
   onSlideChanged(): void {
     this.sideNavStates.fill(false);
+  }
+
+  addToFavoriteMovies(userName: string, movieID: string) : void {
+    this.user = localStorage.getItem('user');
+    this.userName = this.user.Username;
+  if (!userName) {
+    this.snackBar.open('Username is missing.', 'OK', { duration: 2000 });
+    return;
+  }
+
+    this.fetchAPI.addMovieToFavouritesService(userName, movieID).subscribe((response: any) => {
+      this.newFavMovie = response;
+      this.favoriteMovies.push(this.newFavMovie);
+      this.fetchAPI.getFavouriteMoviesService(userName).subscribe((response: any) => {
+        this.favoriteMovies = response;
+        this.snackBar.open(movieID + ' has been added to Favorite List', 'OK', { duration: 2000 });
+      })
+    })
+  }
+
+  onTypedTextChanged(typedText: string): void {
+    this.typedText = typedText;
+    this.filterMovies();
+  }
+
+  filterMovies(): void {
+    if (this.typedText.trim() !== '') {
+      this.filteredMovies = this.movies.filter(movie => 
+        movie.Title.toLowerCase().includes(this.typedText.toLowerCase())
+      );
+    } else {
+       this.filteredMovies = this.movies.slice();
+    }
   }
 }

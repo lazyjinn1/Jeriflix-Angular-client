@@ -30,6 +30,7 @@ import { UserLoginFormComponent } from './user-login-form/user-login-form.compon
 import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ProfileComponent } from './profile/profile.component';
+import { TypedTextComponent } from './typed-text/typed-text.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
@@ -46,6 +47,7 @@ const appRoutes: Routes = [
     WelcomePageComponent,
     CarouselComponent,
     ProfileComponent,
+    TypedTextComponent,
   ],
   imports: [
     FormsModule,

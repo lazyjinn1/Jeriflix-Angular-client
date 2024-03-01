@@ -67,6 +67,8 @@ export class ProfileComponent implements OnInit {
       this.user = JSON.parse(userString);
 
       this.getMovies();
+
+      this.getFavoriteMovies();
       
       this.loading = false;
     }

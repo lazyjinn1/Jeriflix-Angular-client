@@ -88,9 +88,8 @@ export class fetchJeriflixAPI {
   }
 
   //add to favorites
-  addMovieToFavouritesService(userName: string, movieName: string): Observable<any> {
-    const body = { movieName: movieName };
-    return this.http.post(apiUrl + 'users/' + userName + '/favorites', body).pipe(
+  addMovieToFavouritesService(userName: string, movieID: string): Observable<any> {
+    return this.http.post(apiUrl + 'users/' + userName + '/favorites/', movieID).pipe(
       catchError(this.handleError)
     );
   }
