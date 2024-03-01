@@ -39,7 +39,6 @@ export class CarouselComponent implements OnInit{
   ) {
     this.user = {};
   }
-  
 
   customOptions: OwlOptions = {
     loop: true,
@@ -58,15 +57,6 @@ export class CarouselComponent implements OnInit{
     animateOut: true,
     animateIn: true,
     responsive: {
-      0: {
-        items: 1
-      },
-      400: {
-        items: 2
-      },
-      740: {
-        items: 3
-      },
       940: {
         items: 4
       },
@@ -91,7 +81,9 @@ export class CarouselComponent implements OnInit{
   getMovies(): void {
     this.loading = true;
     this.fetchAPI.getAllMoviesService().subscribe((response: any) => {
+      
       this.movies = response;
+      this.filterMovies();
       this.loading = false;
       this.sideNavStates = new Array(this.movies.length).fill(false);
     });
@@ -148,7 +140,7 @@ export class CarouselComponent implements OnInit{
   }
 
   filterMovies(): void {
-    if (this.typedText.trim() !== '') {
+    if (!!this.typedText) {
       this.filteredMovies = this.movies.filter(movie => 
         movie.Title.toLowerCase().includes(this.typedText.toLowerCase())
       );

@@ -47,7 +47,6 @@ export class fetchJeriflixAPI {
   //one movie
   getOneMovieService(title: string): Observable<any> {
     const token = localStorage.getItem('token');
-    console.log(apiUrl + 'movies/' + `${title}`);
     return this.http.get(apiUrl + 'movies/' + title, {
       
       headers: new HttpHeaders({
@@ -89,7 +88,13 @@ export class fetchJeriflixAPI {
 
   //add to favorites
   addMovieToFavouritesService(userName: string, movieID: string): Observable<any> {
-    return this.http.post(apiUrl + 'users/' + userName + '/favorites/', movieID).pipe(
+    const token = localStorage.getItem('token');
+    return this.http.post(apiUrl + 'users/' + userName + '/favorites/' + movieID, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    }).pipe(
+      map(this.extractResponseData),
       catchError(this.handleError)
     );
   }

@@ -27,15 +27,13 @@
             </button>
           </mat-drawer-content>
 
-          <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]"
-            autoFocus="false">
-            <h1>{{movie?.Title}} <button (click)="addToFavoriteMovies(user?.Username,   movie._id)"><mat-icon>favorite_border</mat-icon></button></h1>
+          <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]" autoFocus="false">
+            <h1>{{movie?.Title}} <button (click)="addToFavoriteMovies(user?.Username, movie._id)"><mat-icon>favorite_border</mat-icon></button></h1>
             <p>{{movie?.Description}}</p> <br>
-            <h3>Directed by: <button color="primary" mat-stroked-button>{{movie?.Director.Name}}</button></h3>
+            <h3>Directed by: {{movie?.Director.Name}}</h3>
             <p>{{movie?.Director.Bio}}</p> <br>
-            <h3>Genre: <button color="primary" mat-stroked-button>{{movie?.Genre.Name}}</button></h3>
+            <h3>Genre: {{movie?.Genre.Name}}</h3>
             <p>{{movie?.Genre.Description}}</p> <br>
-            
           </mat-drawer>
 
         </mat-drawer-container>

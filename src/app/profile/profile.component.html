@@ -5,23 +5,7 @@
     <owl-carousel-o #owlCarousel class="favorite-movies" [options]="customOptions" (changed)="onSlideChanged()">
         <ng-container *ngFor="let movie of favoriteMovies let i = index">
             <ng-template carouselSlide [id]="movie?._id">
-                <mat-drawer-container id="mat-drawer-container" hasBackdrop="false">
-                    <mat-drawer-content [ngClass]="{'sideDrawersOut': sideDrawersOpened}">
-                        <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
-                    </mat-drawer-content>
-
-                    <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]"
-                        autoFocus="false">
-                        <h1>{{movie?.Title}} </h1>
-                        <p>{{movie?.Description}}</p> <br>
-                        <h3>Directed by: <button>{{movie?.Director.Name}}</button></h3>
-                        <p>{{movie?.Director.Bio}}</p> <br>
-                        <h3>Genre: <button>{{movie?.Genre.Name}}</button></h3>
-                        <p>{{movie?.Genre.Description}}</p> <br>
-                        <mat-icon>favorite_border</mat-icon>
-                    </mat-drawer>
-
-                </mat-drawer-container>
+                <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
             </ng-template>
         </ng-container>
     </owl-carousel-o>
@@ -34,11 +18,11 @@
                 Birthday: {{user.Birth | date:'longDate'}}<br>
                 Bio: {{user.Bio}}<br>
             </div>
-            
+
             <div>
                 <img mat-card-md-image src="{{user.ProfilePicture}}">
             </div>
-            
+
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button (click)="updateUser()" color="primary" style="margin: 20px;">
