@@ -1,4 +1,3 @@
-// typed-text.component.ts
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Component({
@@ -21,11 +20,8 @@ export class TypedTextComponent {
       this.showText = true;
 
       this.typedTextChanged.emit(this.typedText);
-
-      setTimeout(() => {
-        this.showText = false;
-        this.typedText = '';
-      }, 1500);
+    } else if (event.key === 'Enter'){
+      this.typedText = '';
     }
   }
 }

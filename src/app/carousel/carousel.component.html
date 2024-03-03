@@ -1,4 +1,4 @@
-<app-typed-text (typedTextChanged)="onTypedTextChanged($event)"></app-typed-text>
+<app-typed-text (typedTextChanged)="onTypedTextChanged($event)" ></app-typed-text>
 
 <div class="Movie-Body">
   <div class="Jeriflix-Title">
@@ -10,25 +10,32 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="goToUserProfile()"> Profile</button>
       <button mat-menu-item (click)="logOut()">Logout</button>
-      <button mat-menu-item (click)="closeSideNav()">close sidenav</button>
     </mat-menu>
   </button>
 
   <mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading"
     mode="indeterminate"></mat-progress-spinner>
-
+  
   <owl-carousel-o #owlCarousel class="carousel-container" [options]="customOptions" (changed)="onSlideChanged()">
     <ng-container *ngFor="let movie of movies let i = index">
-      <ng-template carouselSlide [id]="movie?._id">
-        <mat-drawer-container id="mat-drawer-container" hasBackdrop="false">
+      
+      <ng-template carouselSlide [id]="movie._id" >
+        <mat-drawer-container id="mat-drawer-container" class="slide-{{movie._id}}" hasBackdrop="false">
           <mat-drawer-content [ngClass]="{'sideDrawersOut': sideDrawersOpened}">
             <button class="movie-button" (click)="openMovieDialog(movie.Title, i)">
               <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
             </button>
           </mat-drawer-content>
 
-          <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]" autoFocus="false">
-            <h1>{{movie?.Title}} <button (click)="addToFavoriteMovies(user?.Username, movie._id)"><mat-icon>favorite_border</mat-icon></button></h1>
+          <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]"
+            autoFocus="false">
+            <h1>{{movie?.Title}}
+              <button mat-icon-button
+                (click)="isFavoriteMovie(movie._id) ? removeFavoriteMovie(movie._id) : addToFavoriteMovies(movie._id)"
+                [ngClass]="isFavoriteMovie(movie._id) ? 'mat-flat-button' : 'mat-icon-button'">
+                <mat-icon>{{ isFavoriteMovie(movie._id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+              </button>
+            </h1>
             <p>{{movie?.Description}}</p> <br>
             <h3>Directed by: {{movie?.Director.Name}}</h3>
             <p>{{movie?.Director.Bio}}</p> <br>

@@ -20,6 +20,8 @@ export class UserRegistrationFormComponent implements OnInit {
 
   @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
 
+  loading: boolean = false;
+
   constructor(
     public fetchApiData: fetchJeriflixAPI,
     public dialogRef: MatDialogRef<UserRegistrationFormComponent>,
@@ -30,9 +32,10 @@ export class UserRegistrationFormComponent implements OnInit {
 
   // This is the function responsible for sending the form inputs to the backend
   registerUser(): void {
+    this.loading = true;
     this.fetchApiData.userRegistrationService(this.userData).subscribe((response) => {
       this.dialogRef.close(); // This will close the modal on success!
-      console.log(response);
+      this.loading = false;
       this.snackBar.open('User has successfully been registered!', 'OK', { duration: 2000 });
     }, (error) => {
       console.error(error);

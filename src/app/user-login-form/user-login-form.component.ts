@@ -21,6 +21,8 @@ export class UserLoginFormComponent implements OnInit{
 
   @Input() userData = { Username: '', Password: '' };
 
+  loading: boolean = false;
+
   constructor(
     public fetchApiData: fetchJeriflixAPI,
     public dialogRef: MatDialogRef<UserLoginFormComponent>,
@@ -32,11 +34,13 @@ export class UserLoginFormComponent implements OnInit{
   }
 
   logInUser(): void {
+    this.loading = true;
     this.fetchApiData.userLoginService(this.userData).subscribe((response) => {
       this.dialogRef.close();
       
       localStorage.setItem('user', JSON.stringify(response.user));
       localStorage.setItem('token', response.token);
+      this.loading = false;
       this.snackBar.open('Login successful', 'OK', {
         duration: 2000
       });

@@ -18,7 +18,7 @@ export class fetchJeriflixAPI {
 
   //register
   public userRegistrationService(userData: any): Observable<any> {
-    return this.http.post(apiUrl + 'users', userData, {responseType: 'text'}).pipe(
+    return this.http.post(apiUrl + 'users', userData, { responseType: 'text' }).pipe(
       catchError(this.handleError)
     );
   }
@@ -31,7 +31,7 @@ export class fetchJeriflixAPI {
   }
 
   //movies
-  getAllMoviesService(): Observable<any> {
+  public getAllMoviesService(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'movies', {
       headers: new HttpHeaders({
@@ -45,77 +45,86 @@ export class fetchJeriflixAPI {
   }
 
   //one movie
-  getOneMovieService(title: string): Observable<any> {
+  public getOneMovieService(title: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'movies/' + title, {
-      
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       }),
     }).pipe(
       map(this.extractResponseData),
-      catchError(this.handleError)
-    );
-  }
-
-  //directors
-  getDirectorService(directorId: string): Observable<any> {
-    return this.http.get(apiUrl + 'directors/' + directorId).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  //genres
-  getGenreService(genreName: string): Observable<any> {
-    return this.http.get(apiUrl + 'genres/' + genreName).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  //users
-  getUserService(userName: string): Observable<any> {
-    return this.http.get(apiUrl + 'users/' + userName).pipe(
       catchError(this.handleError)
     );
   }
 
   //favorite movies
-  getFavouriteMoviesService(userName: string): Observable<any> {
-    return this.http.get(apiUrl + 'users/' + userName + '/favorites').pipe(
+  public getFavoriteMoviesService(): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('token');
+    return this.http.get(apiUrl + 'users/' + user.Username, {
+      headers: new HttpHeaders(
+      {
+        Authorization: 'Bearer ' + token,
+      })
+    }).pipe(
+      map(this.extractResponseData),
+      map((data) => data.FavoriteMovies),
       catchError(this.handleError)
     );
   }
 
   //add to favorites
-  addMovieToFavouritesService(userName: string, movieID: string): Observable<any> {
+  public addMovieToFavoritesService(movieID: string): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
-    return this.http.post(apiUrl + 'users/' + userName + '/favorites/' + movieID, {
+    user.FavoriteMovies.push(movieID);
+    localStorage.setItem('user', JSON.stringify(user));
+    return this.http.put(apiUrl + 'users/' + user.Username + '/favorites/' + movieID, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       }),
+      responseType: "text",
+      withCredentials: true,
     }).pipe(
       map(this.extractResponseData),
       catchError(this.handleError)
     );
   }
 
-  //edit a user
-  editUserService(userName: string, userData: any): Observable<any> {
-    return this.http.put(apiUrl + 'users/' + userName, userData).pipe(
+  //delete a favorite movie
+  public deleteMovieFromFavoritesService(movieID: string): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('token');
+
+    const index = user.FavoriteMovies.indexOf(movieID);
+    console.log(index);
+    if (index > -1) {
+      user.FavoriteMovies.splice(index, 1);
+    }
+    localStorage.setItem('user', JSON.stringify(user));
+    return this.http.delete(apiUrl + 'users/' + user.Username + '/movies/' + movieID, {
+      headers: new HttpHeaders(
+        {
+          Authorization: 'Bearer ' + token,
+        }),
+      responseType: "text",
+    }).pipe(
+      map(this.extractResponseData),
       catchError(this.handleError)
     );
   }
+
+
+  // //edit a user
+  // public editUserService(userName: string, userData: any): Observable<any> {
+  //   return this.http.put(apiUrl + 'users/' + userName, userData).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
 
   //delete a user
-  deleteUserService(userName: string): Observable<any> {
+  public deleteUserService(userName: string): Observable<any> {
     return this.http.delete(apiUrl + 'users/' + userName).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  //delete a favorite movie
-  deleteMovieFromFavouritesService(userName: string, movieName: string): Observable<any> {
-    return this.http.delete(apiUrl + 'users/' + userName + '/favorites/' + movieName).pipe(
       catchError(this.handleError)
     );
   }
@@ -130,14 +139,14 @@ export class fetchJeriflixAPI {
   private handleError(error: HttpErrorResponse): any {
     if (error.status === 201) {
       console.log('Resource created successfully', error.message);
-      return throwError(()=>'Resource created successfully but interpreted as an error. Status code: ' + error.status);
-    }else if(error.error instanceof ErrorEvent) {
+      return throwError(() => 'Resource created successfully but interpreted as an error. Status code: ' + error.status);
+    } else if (error.error instanceof ErrorEvent) {
       console.error('Some error occurred:', error.error.message);
     } else {
       console.error(
         `Error Status code ${error.status}, ` +
         `Error body is: ${JSON.stringify(error.error)}`);
     }
-    return throwError(()=>'Something went wrong. Error code: ' + error.status);
+    return throwError(() => 'Something went wrong. Error code: ' + error.status);
   }
 }
