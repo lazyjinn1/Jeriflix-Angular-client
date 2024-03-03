@@ -152,27 +152,21 @@ export class CarouselComponent implements OnInit {
         movies.Title.toLowerCase().includes(this.typedText.toLowerCase()));
       if (this.filteredMovies.length > 0) {
         this.specificMovieTitle = this.filteredMovies.filter(movies =>
-          movies.Title.toLowerCase()===(this.typedText.toLowerCase()));
-          const firstFilteredMovie = this.filteredMovies[0];
-          this.owlCarousel.to(firstFilteredMovie._id);
-          if (this.specificMovieTitle.length > 0) {
-            this.owlCarousel.to(this.specificMovieTitle[0]._id);          
-          } else {
-            // Handle error: No exact match found
-            console.error("No exact match found for the typed movie title.");
-            // You can add any specific error handling code here, such as displaying a message to the user.
-          }
+          movies.Title.toLowerCase() === (this.typedText.toLowerCase()));
+        const firstFilteredMovie = this.filteredMovies[0];
+        this.owlCarousel.to(firstFilteredMovie._id);
+        if (this.specificMovieTitle.length > 0) {
+          this.owlCarousel.to(this.specificMovieTitle[0]._id);
         } else {
-          // Handle error: No movies found for the typed text
-          console.error("No movies found for the typed text.");
-          // You can add any specific error handling code here, such as displaying a message to the user.
+          console.error("No exact match found for the typed movie title.");
         }
       } else {
-        // Handle error: Typed text is too short or empty
-        console.error("Typed text is too short or empty.");
-        // You can add any specific error handling code here, such as displaying a message to the user.
+        console.error("No movies found for the typed text.");
       }
+    } else {
+      console.error("Typed text is too short or empty.");
     }
+  }
 
   filterMovies(): void {
     if (!!this.typedText) {
