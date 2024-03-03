@@ -17,7 +17,6 @@ export class ProfileComponent implements OnInit {
   favoriteMovies: any[] = [];
   movie: any;
 
-  events: string[] = [];
   sideNavStates: boolean[] = [];
   sideDrawersOpened: boolean = false;
 
@@ -96,19 +95,6 @@ export class ProfileComponent implements OnInit {
   getFavoriteMovies(): void {
     this.favoriteMovies = this.movies.filter(movies => this.user.FavoriteMovies.includes(movies._id));
     console.log(this.favoriteMovies);
-  }
-
-  openMovieDialog(movieName: string, index: number): void {
-    this.fetchAPI.getOneMovieService(movieName).subscribe((response: any) => {
-      this.movie = response;
-      console.log(response);
-      this.sideNavStates = this.sideNavStates.map((state, i) => i === index);
-      this.sideDrawersOpened = true;
-    })
-  }
-
-  onSlideChanged(): void {
-    this.sideNavStates.fill(false);
   }
 
   updateUser(): void {

@@ -63,9 +63,9 @@ export class fetchJeriflixAPI {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'users/' + user.Username, {
       headers: new HttpHeaders(
-      {
-        Authorization: 'Bearer ' + token,
-      })
+        {
+          Authorization: 'Bearer ' + token,
+        })
     }).pipe(
       map(this.extractResponseData),
       map((data) => data.FavoriteMovies),
@@ -77,11 +77,16 @@ export class fetchJeriflixAPI {
   public addMovieToFavoritesService(movieID: string): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
+
     user.FavoriteMovies.push(movieID);
+
     localStorage.setItem('user', JSON.stringify(user));
-    return this.http.put(apiUrl + 'users/' + user.Username + '/favorites/' + movieID, {
+
+    return this.http.put(apiUrl + 'users/' + user.Username + '/favorites/' + movieID, 
+    {},
+    {
       headers: new HttpHeaders({
-        Authorization: 'Bearer ' + token,
+        'Authorization': `Bearer ${token}`
       }),
       responseType: "text",
       withCredentials: true,
@@ -97,23 +102,23 @@ export class fetchJeriflixAPI {
     const token = localStorage.getItem('token');
 
     const index = user.FavoriteMovies.indexOf(movieID);
-    console.log(index);
     if (index > -1) {
       user.FavoriteMovies.splice(index, 1);
     }
+
     localStorage.setItem('user', JSON.stringify(user));
-    return this.http.delete(apiUrl + 'users/' + user.Username + '/movies/' + movieID, {
-      headers: new HttpHeaders(
-        {
+
+    return this.http.delete(apiUrl + 'users/' + user.Username + '/favorites/' + movieID, {
+      headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
         }),
       responseType: "text",
+      withCredentials: true,
     }).pipe(
       map(this.extractResponseData),
       catchError(this.handleError)
     );
   }
-
 
   // //edit a user
   // public editUserService(userName: string, userData: any): Observable<any> {
@@ -122,16 +127,9 @@ export class fetchJeriflixAPI {
   //   );
   // }
 
-  //delete a user
-  public deleteUserService(userName: string): Observable<any> {
-    return this.http.delete(apiUrl + 'users/' + userName).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   // Non-typed response extraction
-  private extractResponseData(res: any): any {
-    const body = res;
+  private extractResponseData(response: any): any {
+    const body = response;
     return body || {};
   }
 

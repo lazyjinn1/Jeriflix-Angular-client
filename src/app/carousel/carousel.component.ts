@@ -79,7 +79,6 @@ export class CarouselComponent implements OnInit {
   getMovies(): void {
     this.loading = true;
     this.fetchAPI.getAllMoviesService().subscribe((response: any) => {
-
       this.movies = response;
       this.loading = false;
       this.filterMovies();
@@ -109,36 +108,31 @@ export class CarouselComponent implements OnInit {
     this.sideNavStates.fill(false);
   }
 
-  getFavorites(Username: string): void {
-    this.favoriteMovies = this.user.FavoriteMovies;
-    this.fetchAPI.getFavoriteMoviesService().subscribe((response: any) => {
-      this.favoriteMovies = response;
-    })
-  }
-
   isFavoriteMovie(movieID: string): boolean {
     return this.user.FavoriteMovies.indexOf(movieID) >= 0;
   }
 
   addToFavoriteMovies(movieID: string): void {
+    this.favoriteMovies.push(movieID);
     this.fetchAPI.addMovieToFavoritesService(movieID).subscribe((response: any) => {
-      this.newFavMovie = response;
-      this.favoriteMovies.push(this.newFavMovie);
-      this.snackBar.open(movieID + ' has been added to Favorite List', 'OK', { duration: 2000 });
-    },
-      (error: any) => {
+      this.snackBar.open(movieID + ' has been added to favorites', 'OK', { duration: 2000 });
+    },(error: any) => {
         console.error('Failed to add movie to favorites:', error);
         this.snackBar.open('Failed to add movie to favorites', 'OK', { duration: 2000 });
       }
     );
   }
 
-  public removeFavoriteMovie(movieID: string): void {
+  removeFavoriteMovie(movieID: string): void {
+    const index = this.user.FavoriteMovies.indexOf(movieID);
+    this.favoriteMovies.splice(index, 1);
     this.fetchAPI.deleteMovieFromFavoritesService(movieID).subscribe(() => {
-      this.snackBar.open('removed from favorites', 'OK', {
-        duration: 2000
-      })
-    });
+      this.snackBar.open(movieID + ' has been removed from favorites', 'OK', {duration: 2000})
+    },(error: any) => {
+        console.error('Failed to remove movie from favorites:', error);
+        this.snackBar.open('Failed to remove movie from favorites', 'OK', { duration: 2000 });
+      }
+    );
   }
 
   onTypedTextChanged(typedText: string): void {
