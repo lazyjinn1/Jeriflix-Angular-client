@@ -27,7 +27,6 @@ export class EditUserModalComponent {
 
   ngOnInit(): void { 
     this.getProfile();
-    console.log(this.user);
   }
 
   getProfile(): void {
@@ -52,12 +51,17 @@ export class EditUserModalComponent {
     })
   }
 
+  updateUser(newData: any): void {
+    localStorage.setItem('user', newData);
+  }
+
   updateUserName(): void {
     this.loading = true;
     if (this.newData.Username) {
-      this.fetchAPI.editUsername(this.newData.Username).subscribe((result) => {
+      this.fetchAPI.editUsername(this.newData.Username).subscribe((response) => {
         this.loading = false;
         this.snackBar.open('Username has been updated!', 'OK', { duration: 2000 });
+        this.updateUser(response);
         this.getProfile();
       }, (error) => {
         console.error(error);
@@ -77,6 +81,7 @@ export class EditUserModalComponent {
         this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Email has been updated!', 'OK', { duration: 2000 });
+        this.updateUser(response);
         this.getProfile();
       }, (error) => {
         console.error(error);
@@ -92,10 +97,11 @@ export class EditUserModalComponent {
     this.loading = true;
     console.log(this.user.Username);
     if (this.newData.Birthday) {
-      this.fetchAPI.editBirthday(this.user.Username, this.newData.Birthday).subscribe((result) => {
+      this.fetchAPI.editBirthday(this.user.Username, this.newData.Birthday).subscribe((response) => {
         this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Birthday has been updated!', 'OK', { duration: 2000 });
+        this.updateUser(response);
         this.getProfile();
       }, (error) => {
         console.error(error);
@@ -111,10 +117,11 @@ export class EditUserModalComponent {
     this.loading = true;
     console.log(this.user.Username);
     if (this.newData.Bio) {
-      this.fetchAPI.editBio(this.user.Username, this.newData.Bio).subscribe((result) => {
+      this.fetchAPI.editBio(this.user.Username, this.newData.Bio).subscribe((response) => {
         this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Bio has been updated!', 'OK', { duration: 2000 });
+        this.updateUser(response);
         this.getProfile();
       }, (error) => {
         console.error(error);

@@ -26,6 +26,22 @@ export class ChangePasswordComponent {
     this.passwordConfirmed = '';
   }
 
+  ngOnInit(): void { 
+    this.getProfile();
+  }
+
+  updateUser(newData: any): void {
+    localStorage.setItem('user', newData);
+  }
+
+  getProfile(): void {
+    const userString = localStorage.getItem('user');
+    console.log(userString);
+    if (userString) {
+      this.user = JSON.parse(userString);
+    }
+  }
+
   confirmAndUpdatePassword(): void {
     if (this.newPassword !== this.passwordConfirmed) {
       this.snackBar.open('New password and confirmed password do not match', 'OK', { duration: 2000 });
@@ -40,6 +56,7 @@ export class ChangePasswordComponent {
       localStorage.setItem('user', response);
       this.dialogRef.close();
       this.loading = false;
+      this.updateUser(response);
       this.snackBar.open('New password has been set', 'OK', { duration: 2000 });
     }, (error) => {
       console.error(error);

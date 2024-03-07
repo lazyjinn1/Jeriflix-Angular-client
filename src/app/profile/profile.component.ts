@@ -58,6 +58,10 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loadProfileData();
+  }
+
+  loadProfileData(): void {
     this.getProfile();
     this.getMovies();
     this.loading = false;
@@ -91,6 +95,8 @@ export class ProfileComponent implements OnInit {
   updateUser(): void {
     this.dialogRef.open(EditUserModalComponent, {
       width: '400px',
+    }).afterClosed().subscribe(() => {
+      this.loadProfileData();
     });
   }
 
@@ -100,5 +106,7 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['welcome']);
   }
 
-
+  onUpdate(): void {
+    this.loadProfileData();
+  }
 }

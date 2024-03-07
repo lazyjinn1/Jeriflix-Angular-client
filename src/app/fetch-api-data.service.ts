@@ -174,8 +174,9 @@ export class fetchJeriflixAPI {
   }
 
   public editUsername(Username: any): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + 'users/' + Username, {Username: Username}, {
+    return this.http.put(apiUrl + 'users/' + user.Username, {Username: Username}, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       }),
