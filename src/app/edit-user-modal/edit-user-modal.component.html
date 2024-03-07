@@ -9,29 +9,32 @@
         <form>
             <mat-form-field>
                 <input matInput [(ngModel)]="newData.Username" placeholder="Username" type="text" name="Username">
-                <button class="edit-account-buttons" mat-raised-button (click)="updateUserName()" color="primary">
-                    Update User
-                </button>
             </mat-form-field>
+            <button class="edit-account-buttons" mat-raised-button (click)="updateUserName()" color="primary">
+                Update Username
+            </button>
+
             <mat-form-field>
                 <input matInput [(ngModel)]="newData.Email" type="email" placeholder="Email" name="Email">
-                <button class="edit-account-buttons" mat-raised-button (click)="updateEmail()" color="primary">
-                    Update Email
-                </button>
             </mat-form-field>
+            <button class="edit-account-buttons" mat-raised-button (click)="updateEmail()" color="primary">
+                Update Email
+            </button>
+
             <mat-form-field>
-                <input [(ngModel)]="newData.Birthday" type="date" placeholder="Birthday" name="Birthday">
-                <button class="edit-account-buttons" mat-raised-button (click)="updateBirthday()" color="primary">
-                    Update Birthday
-                </button>
+                <input matInput [(ngModel)]="newData.Birthday" type="date" placeholder="Birthday" name="Birthday">
             </mat-form-field>
+            <button class="edit-account-buttons" mat-raised-button (click)="updateBirthday()" color="primary">
+                Update Birthday
+            </button>
+
             <mat-form-field>
                 <input matInput [(ngModel)]="newData.Bio" type="text" placeholder="What are you thinking about?"
                     name="Bio">
-                <button class="edit-account-buttons" mat-raised-button (click)="updateBio()" color="primary">
-                    Update Bio
-                </button>
             </mat-form-field>
+            <button class="edit-account-buttons" mat-raised-button (click)="updateBio()" color="primary">
+                Update Bio
+            </button>
         </form>
     </mat-card-content>
     <mat-card-actions id="edit-buttons-section">

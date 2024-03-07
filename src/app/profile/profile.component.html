@@ -3,7 +3,7 @@
 
 <div class="profile-page">
     <owl-carousel-o #owlCarousel class="favorite-movies" [options]="customOptions">
-        <ng-container *ngFor="let movie of favoriteMovies let i = index">
+        <ng-container *ngFor="let movie of favoriteMovies">
             <ng-template carouselSlide [id]="movie?._id">
                 <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
             </ng-template>

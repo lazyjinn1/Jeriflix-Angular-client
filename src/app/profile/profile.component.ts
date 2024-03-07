@@ -13,7 +13,8 @@ import { EditUserModalComponent } from '../edit-user-modal/edit-user-modal.compo
 export class ProfileComponent implements OnInit {
   loading: boolean = true;
 
-  user: any;
+  user: any = { Username: '', Password: '', Email: '', Birthday: '', Bio: '', ProfilePicture: '' };
+
   movies: any[] = [];
   favoriteMovies: any[] = [];
   movie: any;
@@ -57,12 +58,17 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.getProfile();
     this.getMovies();
+    this.loading = false;
   }
 
-  openMovieList(): void {
-    this.router.navigate(['movies']);
+  getProfile(): void {
+    const userString = localStorage.getItem('user');
+    console.log(userString);
+    if (userString) {
+      this.user = JSON.parse(userString);
+    }
   }
 
   getMovies(): void {
@@ -76,6 +82,10 @@ export class ProfileComponent implements OnInit {
 
   getFavoriteMovies(): void {
     this.favoriteMovies = this.movies.filter(movies => this.user.FavoriteMovies.includes(movies._id));
+  }
+
+  openMovieList(): void {
+    this.router.navigate(['movies']);
   }
 
   updateUser(): void {

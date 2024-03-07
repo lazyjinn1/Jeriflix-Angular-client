@@ -121,10 +121,9 @@ export class fetchJeriflixAPI {
   }
 
   //view a user
-  public viewUserService(): Observable<any> {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  public viewUserService(Username: any): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'users/' + user.Username,{
+    return this.http.get(apiUrl + 'users/' + Username,{
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       }),
@@ -135,11 +134,9 @@ export class fetchJeriflixAPI {
     );
   }
 
-  //edit a user
-  public editUserService(userData: any): Observable<any> {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  public editPassword(Username: any, Password: any): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + 'users/' + user.Username, userData, {
+    return this.http.put(apiUrl + 'users/' + Username, {Password: Password}, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       }),
@@ -150,10 +147,61 @@ export class fetchJeriflixAPI {
     );
   }
 
-  public editPassword(Password: any): Observable<any> {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  public editEmail(Username: any, Email: any): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + 'users/' + user.Username, {Password: Password}, {
+    return this.http.put(apiUrl + 'users/' + Username, {Email: Email}, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    responseType: "text",
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public editBirthday(Username: any, Birthday: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.put(apiUrl + 'users/' + Username, {Birthday: Birthday}, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    responseType: "text",
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public editUsername(Username: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.put(apiUrl + 'users/' + Username, {Username: Username}, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    responseType: "text",
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public editBio(Username: any, Bio: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.put(apiUrl + 'users/' + Username, {Bio: Bio}, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    responseType: "text",
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public editProfilePicture(Username: any, ProfilePicture: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.put(apiUrl + 'users/' + Username, {ProfilePicture: ProfilePicture}, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       }),

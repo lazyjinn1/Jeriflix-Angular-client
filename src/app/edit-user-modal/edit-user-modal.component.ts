@@ -12,12 +12,10 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
   styleUrl: './edit-user-modal.component.scss'
 })
 export class EditUserModalComponent {
-  user: any = localStorage.getItem('user');
-  token: any = localStorage.getItem('token');
+  @Input() newData: any = { Username: '', Email: '', Birthday: '', Bio: '' };
+
   loading: boolean = false;
-
-
-  @Input() newData: any = { Username: this.user.Username, Email: this.user.Email, Birthday: this.user.Birthday, Bio: this.user.Bio };
+  user: any;
 
   constructor(
     public fetchAPI: fetchJeriflixAPI,
@@ -27,7 +25,18 @@ export class EditUserModalComponent {
     private router: Router,
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.getProfile();
+    console.log(this.user);
+  }
+
+  getProfile(): void {
+    const userString = localStorage.getItem('user');
+    console.log(userString);
+    if (userString) {
+      this.user = JSON.parse(userString);
+    }
+  }
 
   openProfilePictureMenu(): void {
     this.dialog.open(ProfilePictureComponent, {
@@ -46,61 +55,75 @@ export class EditUserModalComponent {
   updateUserName(): void {
     this.loading = true;
     if (this.newData.Username) {
-      this.fetchAPI.editUserService(this.newData).subscribe((result) => {
-        localStorage.setItem('user', JSON.stringify(result));
+      this.fetchAPI.editUsername(this.newData.Username).subscribe((result) => {
         this.loading = false;
         this.snackBar.open('Username has been updated!', 'OK', { duration: 2000 });
+        this.getProfile();
       }, (error) => {
         console.error(error);
         this.snackBar.open(error, 'OK', { duration: 2000 });
       });
     } else {
       this.snackBar.open('Fields must be entered')
+      this.loading = false;
+      return;
     }
   }
   updateEmail(): void {
     this.loading = true;
+    console.log(this.user.Username);
     if (this.newData.Email) {
-      this.fetchAPI.editUserService(this.newData).subscribe((result) => {
-        localStorage.setItem('user', JSON.stringify(result));
+      this.fetchAPI.editEmail(this.user.Username, this.newData.Email).subscribe((response) => {
+        this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Email has been updated!', 'OK', { duration: 2000 });
+        this.getProfile();
       }, (error) => {
         console.error(error);
         this.snackBar.open(error, 'OK', { duration: 2000 });
       });
     } else {
       this.snackBar.open('Fields must be entered')
+      this.loading = false;
+      return;
     }
   }
   updateBirthday(): void {
     this.loading = true;
+    console.log(this.user.Username);
     if (this.newData.Birthday) {
-      this.fetchAPI.editUserService(this.newData).subscribe((result) => {
-        localStorage.setItem('user', JSON.stringify(result));
+      this.fetchAPI.editBirthday(this.user.Username, this.newData.Birthday).subscribe((result) => {
+        this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Birthday has been updated!', 'OK', { duration: 2000 });
+        this.getProfile();
       }, (error) => {
         console.error(error);
         this.snackBar.open(error, 'OK', { duration: 2000 });
       });
     } else {
       this.snackBar.open('Fields must be entered')
+      this.loading = false;
+      return;
     }
   }
   updateBio(): void {
     this.loading = true;
+    console.log(this.user.Username);
     if (this.newData.Bio) {
-      this.fetchAPI.editUserService(this.newData).subscribe((result) => {
-        localStorage.setItem('user', JSON.stringify(result));
+      this.fetchAPI.editBio(this.user.Username, this.newData.Bio).subscribe((result) => {
+        this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Bio has been updated!', 'OK', { duration: 2000 });
+        this.getProfile();
       }, (error) => {
         console.error(error);
         this.snackBar.open(error, 'OK', { duration: 2000 });
       });
     } else {
       this.snackBar.open('Fields must be entered')
+      this.loading = false;
+      return;
     }
   }
 

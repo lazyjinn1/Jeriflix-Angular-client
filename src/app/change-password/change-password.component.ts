@@ -36,7 +36,7 @@ export class ChangePasswordComponent {
 
   updatePassword(newPassword: any): void {
     this.loading = true;
-    this.fetchAPI.editPassword(newPassword).subscribe((response) => {
+    this.fetchAPI.editPassword(this.user.Username, newPassword).subscribe((response) => {
       localStorage.setItem('user', response);
       this.dialogRef.close();
       this.loading = false;
