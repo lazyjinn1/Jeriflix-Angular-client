@@ -20,7 +20,8 @@ import { MatFabButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSidenavModule } from '@angular/material/sidenav'; 
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatGridListModule } from '@angular/material/grid-list'
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
     MatFabButton,
     MatMenuModule,
     MatListModule,
+    MatGridListModule,
     BrowserAnimationsModule,
     MatSidenavModule,
     CarouselModule,
