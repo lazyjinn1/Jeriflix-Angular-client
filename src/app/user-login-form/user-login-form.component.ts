@@ -47,9 +47,11 @@ export class UserLoginFormComponent implements OnInit{
       this.router.navigate(['movies']);
     }, (response) => {
       console.error(response);
-      this.snackBar.open(response, 'OK', {
+      this.snackBar.open('Error logging in. Please verify your information.', 'OK', {
         duration: 2000
-      });
+      })
+      this.loading = false;
+      return;
     });
   }
 }

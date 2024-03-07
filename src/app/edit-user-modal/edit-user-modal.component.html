@@ -1,0 +1,48 @@
+<mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading"
+    mode="indeterminate"></mat-progress-spinner>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Update Account Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="edit-form">
+        <form>
+            <mat-form-field>
+                <input matInput [(ngModel)]="newData.Username" placeholder="Username" type="text" name="Username">
+                <button class="edit-account-buttons" mat-raised-button (click)="updateUserName()" color="primary">
+                    Update User
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [(ngModel)]="newData.Email" type="email" placeholder="Email" name="Email">
+                <button class="edit-account-buttons" mat-raised-button (click)="updateEmail()" color="primary">
+                    Update Email
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <input [(ngModel)]="newData.Birthday" type="date" placeholder="Birthday" name="Birthday">
+                <button class="edit-account-buttons" mat-raised-button (click)="updateBirthday()" color="primary">
+                    Update Birthday
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [(ngModel)]="newData.Bio" type="text" placeholder="What are you thinking about?"
+                    name="Bio">
+                <button class="edit-account-buttons" mat-raised-button (click)="updateBio()" color="primary">
+                    Update Bio
+                </button>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions id="edit-buttons-section">
+        <button class="edit-account-buttons" mat-raised-button (click)="openProfilePictureMenu()" color="primary">
+            Change Avatar
+        </button>
+        <button class="edit-account-buttons" mat-raised-button (click)="openPasswordMenu()" color="primary">
+            Change Password
+        </button>
+        <button class="edit-account-buttons" mat-raised-button (click)="deleteUser()" color="primary">
+            Delete User
+        </button>
+    </mat-card-actions>
+</mat-card>

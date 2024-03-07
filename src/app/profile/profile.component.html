@@ -15,7 +15,7 @@
             <div>
                 Username: {{user.Username}} <br>
                 Email: {{user.Email}} <br>
-                Birthday: {{user.Birth | date:'longDate'}}<br>
+                Birthday: {{user.Birthday | date:'longDate'}}<br>
                 Bio: {{user.Bio}}<br>
             </div>
 
@@ -28,16 +28,14 @@
             <button mat-raised-button (click)="updateUser()" color="primary" style="margin: 20px;">
                 Update User
             </button>
-            <button mat-raised-button color="primary" (click)="deleteUser()" style="margin: 20px;">
-                Delete Account
-            </button>
+
         </mat-card-actions>
     </mat-card>
-    <button mat-fab class="profile-fab" [matMenuTriggerFor]="menu">
-        +
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openMovieList()">Home</button>
-            <button mat-menu-item (click)="logOut()">Logout</button>
-        </mat-menu>
-    </button>
+    <button class = "menu-button" mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openMovieList()">Movies</button>
+        <button mat-menu-item (click)="logOut()">Logout</button>
+      </mat-menu>
 </div>

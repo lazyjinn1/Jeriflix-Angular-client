@@ -71,3 +71,15 @@
     margin-left: 200px;
     overflow: visible;
 }
+
+.menu-button{
+    background-color: transparent;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 1000;
+}
+
+.menu-button:hover{
+    cursor: pointer;
+}

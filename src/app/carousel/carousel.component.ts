@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CarouselComponent implements OnInit {
   @ViewChild('owlCarousel', { static: false }) owlCarousel: any;
+
   typedText: string = '';
   loading: boolean = true;
   sideNavStates: boolean[] = [];
@@ -20,9 +21,7 @@ export class CarouselComponent implements OnInit {
   movies: any[] = [];
   favoriteMovies: string[] = [];
   movie: any;
-  newFavMovie: any;
-  user = JSON.parse(localStorage.getItem('user') || '');
-  userName: any;
+  user: any;
   filteredMovies: any[] = [];
   firstFilteredMovie: any;
   specificMovieTitle: any;
@@ -33,7 +32,6 @@ export class CarouselComponent implements OnInit {
     public dialogRef: MatDialog,
     public snackBar: MatSnackBar,
     public router: Router,
-    private elementRef: ElementRef
   ) {
   }
 
@@ -68,6 +66,7 @@ export class CarouselComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loading = true;
     const userString = localStorage.getItem('user');
     if (userString) {
       this.user = JSON.parse(userString);

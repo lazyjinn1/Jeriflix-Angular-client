@@ -120,12 +120,63 @@ export class fetchJeriflixAPI {
     );
   }
 
-  // //edit a user
-  // public editUserService(userName: string, userData: any): Observable<any> {
-  //   return this.http.put(apiUrl + 'users/' + userName, userData).pipe(
-  //     catchError(this.handleError)
-  //   );
-  // }
+  //view a user
+  public viewUserService(): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('token');
+    return this.http.get(apiUrl + 'users/' + user.Username,{
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    responseType: "text",
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  //edit a user
+  public editUserService(userData: any): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('token');
+    return this.http.put(apiUrl + 'users/' + user.Username, userData, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    responseType: "text",
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public editPassword(Password: any): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('token');
+    return this.http.put(apiUrl + 'users/' + user.Username, {Password: Password}, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    responseType: "text",
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
+  public deleteUserService(): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('token');
+    return this.http.delete(apiUrl + 'users/' + user.Username, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    withCredentials: true,
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   // Non-typed response extraction
   private extractResponseData(response: any): any {

@@ -7,8 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CarouselModule } from 'ngx-owl-carousel-o';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,6 +31,9 @@ import { UserRegistrationFormComponent } from './user-registration-form/user-reg
 import { CarouselComponent } from './carousel/carousel.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TypedTextComponent } from './typed-text/typed-text.component';
+import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
+import { ProfilePictureComponent } from './profile-picture/profile-picture.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
@@ -49,9 +51,13 @@ const appRoutes: Routes = [
     CarouselComponent,
     ProfileComponent,
     TypedTextComponent,
+    EditUserModalComponent,
+    ProfilePictureComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { fetchJeriflixAPI } from '../fetch-api-data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { EditUserModalComponent } from '../edit-user-modal/edit-user-modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -17,16 +18,11 @@ export class ProfileComponent implements OnInit {
   favoriteMovies: any[] = [];
   movie: any;
 
-  sideNavStates: boolean[] = [];
-  sideDrawersOpened: boolean = false;
-
   constructor(
     public fetchAPI: fetchJeriflixAPI,
     public dialogRef: MatDialog,
     private router: Router
-  ) {
-    this.user = {}
-  }
+  ) { }
 
   customOptions: OwlOptions = {
     dots: true,
@@ -35,7 +31,7 @@ export class ProfileComponent implements OnInit {
     pullDrag: true,
     slideTransition: 'linear',
     navSpeed: 200,
-    navText: ['Previous', 'Next'] ,
+    navText: ['Previous', 'Next'],
     margin: 0,
     center: true,
     slideBy: 1,
@@ -58,29 +54,15 @@ export class ProfileComponent implements OnInit {
     },
     nav: true
   }
-  
+
 
   ngOnInit(): void {
-    const userString = localStorage.getItem('user');
-    if (userString) {
-      this.user = JSON.parse(userString);
-
-      this.getMovies();
-
-      this.getFavoriteMovies();
-      
-      this.loading = false;
-    }
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.getMovies();
   }
 
   openMovieList(): void {
     this.router.navigate(['movies']);
-  }
-
-  logOut(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    this.router.navigate(['welcome']);
   }
 
   getMovies(): void {
@@ -94,14 +76,19 @@ export class ProfileComponent implements OnInit {
 
   getFavoriteMovies(): void {
     this.favoriteMovies = this.movies.filter(movies => this.user.FavoriteMovies.includes(movies._id));
-    console.log(this.favoriteMovies);
   }
 
   updateUser(): void {
-
+    this.dialogRef.open(EditUserModalComponent, {
+      width: '400px',
+    });
   }
 
-  deleteUser(): void {
-
+  logOut(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    this.router.navigate(['welcome']);
   }
+
+
 }
