@@ -1,19 +1,44 @@
-.profile-page{
-    display:grid;
-    grid-template-columns: 2fr 1fr;
-    padding: 100px;
+.profile-page {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 50px;
 }
 
-.profile-card{
+#full-card{
+    background-image: linear-gradient(to right,  green, white, white, white, white, white, green);
+    border-radius: 20px;
+    padding: 30px;
+    padding-right: 5px;
+}
+
+.profile-card {
+    display: grid;
+    grid-template-columns: 65% 35%;
     border-radius: 20px;
     height: 100%;
-    background-color: white;
-    padding: 20px;
 }
 
-.profile-fab{
-    position: fixed;
-    float: right;
+#profile-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+    text-decoration: double underline
+}
+
+#profile-details {
+    text-align: left;
+    justify-content: space-between;
+}
+
+.user-details{
+    margin: 15px 0px;
+    font-size: 125%;
+}
+
+#profile-picture {
+    padding: 0;
+    border: 10px solid black;
+    border-radius: 20px;
 }
 
 .carousel-container {
@@ -24,46 +49,12 @@
     display: flex;
     justify-content: space-between;
 }
-
-.mat-drawer-content .movie-button {
-    transition: transform 0.5s ease;
-    position: sticky;
-}
-
 .movie-button:hover {
     cursor: pointer;
     z-index: 2;
 }
 
-.mat-drawer-container {
-    overflow: visible;
-}
-
-.mat-drawer-inner-container {
-    margin: 10px 30px;
-}
-
-.mat-drawer-container {
-    overflow: visible;
-}
-
-.rightDrawer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 100;
-    overflow: hidden;
-    margin: 0;
-    padding: 30px;
-    font-size: 80%;
-    width: 300px;
-    text-align: center;
-    justify-content: center;
-    border-radius: 20px;
-}
-
-
-.favorite-movies{
+.favorite-movies {
     display: flex;
     flex-direction: row;
     width: 35vw;
@@ -72,14 +63,15 @@
     overflow: visible;
 }
 
-.menu-button{
+.menu-button {
     background-color: transparent;
     position: fixed;
     left: 20px;
     top: 20px;
     z-index: 1000;
+    transform: scale(2);
 }
 
-.menu-button:hover{
+.menu-button:hover {
     cursor: pointer;
 }

@@ -78,7 +78,6 @@ export class EditUserModalComponent {
     console.log(this.user.Username);
     if (this.newData.Email) {
       this.fetchAPI.editEmail(this.user.Username, this.newData.Email).subscribe((response) => {
-        this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Email has been updated!', 'OK', { duration: 2000 });
         this.updateUser(response);
@@ -98,7 +97,6 @@ export class EditUserModalComponent {
     console.log(this.user.Username);
     if (this.newData.Birthday) {
       this.fetchAPI.editBirthday(this.user.Username, this.newData.Birthday).subscribe((response) => {
-        this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Birthday has been updated!', 'OK', { duration: 2000 });
         this.updateUser(response);
@@ -118,7 +116,6 @@ export class EditUserModalComponent {
     console.log(this.user.Username);
     if (this.newData.Bio) {
       this.fetchAPI.editBio(this.user.Username, this.newData.Bio).subscribe((response) => {
-        this.dialogRef.close();
         this.loading = false;
         this.snackBar.open('Bio has been updated!', 'OK', { duration: 2000 });
         this.updateUser(response);

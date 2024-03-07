@@ -4,8 +4,8 @@
   <div class="Jeriflix-Title">
     <h1 id="Jeriflix-Title">Welcome to Jeriflix</h1>
   </div>
-  
-  <button class = "menu-button" mat-button [matMenuTriggerFor]="menu">
+
+  <button class="menu-button" mat-icon-button [matMenuTriggerFor]="menu" color="warn">
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
@@ -32,7 +32,10 @@
               <button mat-icon-button
                 (click)="isFavoriteMovie(movie._id) ? removeFavoriteMovie(movie._id) : addToFavoriteMovies(movie._id)"
                 [ngClass]="isFavoriteMovie(movie._id) ? 'mat-flat-button' : 'mat-icon-button'">
-                <mat-icon>{{ isFavoriteMovie(movie._id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+                <mat-icon *ngIf="isFavoriteMovie(movie._id)" 
+                  (click)="toggleFavorite(movie._id)">favorite</mat-icon>
+                <mat-icon *ngIf="!isFavoriteMovie(movie._id)"
+                  (click)="toggleFavorite(movie._id)">favorite_border</mat-icon>
               </button>
             </h1>
             <p>{{movie?.Description}}</p> <br>

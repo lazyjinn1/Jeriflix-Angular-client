@@ -53,7 +53,6 @@
 }
 
 .movie-button img {
-    height: 400px;
     margin: 0;
 }
 
@@ -108,14 +107,14 @@
     z-index: 1000;
 }
 
-.menu-button{
+.menu-button {
     background-color: transparent;
     position: fixed;
-    right: 20px;
+    left: 20px;
     top: 20px;
-    z-index: 1000;
+    transform: scale(2);
 }
 
-.menu-button:hover{
+.menu-button:hover {
     cursor: pointer;
 }

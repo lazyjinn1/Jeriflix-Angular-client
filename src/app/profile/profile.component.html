@@ -1,27 +1,39 @@
 <mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading"
     mode="indeterminate"></mat-progress-spinner>
 
+<button class="menu-button" mat-icon-button [matMenuTriggerFor]="menu" color="warn">
+    <mat-icon>menu</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openMovieList()">Movies</button>
+    <button mat-menu-item (click)="logOut()">Logout</button>
+</mat-menu>
+
 <div class="profile-page">
-    <owl-carousel-o #owlCarousel class="favorite-movies" [options]="customOptions">
-        <ng-container *ngFor="let movie of favoriteMovies">
-            <ng-template carouselSlide [id]="movie?._id">
-                <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
-            </ng-template>
-        </ng-container>
-    </owl-carousel-o>
-    <mat-card>
-        <mat-card-title>Welcome to my page!</mat-card-title>
-        <mat-card-content>
-            <div>
-                Username: {{user.Username}} <br>
-                Email: {{user.Email}} <br>
-                Birthday: {{user.Birthday | date:'longDate'}}<br>
-                Bio: {{user.Bio}}<br>
+    <div>
+        <h1>Favorite Movies</h1>
+        <owl-carousel-o #owlCarousel class="favorite-movies" [options]="customOptions">
+            <ng-container *ngFor="let movie of favoriteMovies">
+                <ng-template carouselSlide [id]="movie?._id">
+                    <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
+                </ng-template>
+            </ng-container>
+        </owl-carousel-o>
+    </div>
+
+    <mat-card id = "full-card">
+        <mat-card-title id="profile-title">
+            <h2>{{user.Username}}</h2>
+        </mat-card-title>
+        <mat-card-content class="profile-card">
+            <div id="profile-details">
+                <h5 class="user-details">Username: </h5><span>{{user.Username}}</span>
+                <h5 class="user-details">Email: </h5><span>{{user.Email}}</span>
+                <h5 class="user-details">Birthday: </h5><span>{{user.Birthday | date:'longDate'}}</span>
+                <h5 class="user-details">Bio: </h5><span>{{user.Bio}}</span>
             </div>
 
-            <div>
-                <img mat-card-md-image src="{{user.ProfilePicture}}">
-            </div>
+            <img id="profile-picture" src="{{user.ProfilePicture}}">
 
         </mat-card-content>
         <mat-card-actions>
@@ -31,11 +43,4 @@
 
         </mat-card-actions>
     </mat-card>
-    <button class = "menu-button" mat-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openMovieList()">Movies</button>
-        <button mat-menu-item (click)="logOut()">Logout</button>
-      </mat-menu>
 </div>

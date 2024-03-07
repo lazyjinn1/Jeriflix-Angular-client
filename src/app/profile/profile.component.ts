@@ -95,6 +95,7 @@ export class ProfileComponent implements OnInit {
   updateUser(): void {
     this.dialogRef.open(EditUserModalComponent, {
       width: '400px',
+      height: '600px'
     }).afterClosed().subscribe(() => {
       this.loadProfileData();
     });

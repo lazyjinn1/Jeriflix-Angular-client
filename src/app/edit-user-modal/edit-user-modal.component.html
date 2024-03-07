@@ -28,9 +28,9 @@
                 Update Birthday
             </button>
 
-            <mat-form-field>
+            <mat-form-field class = "bio-textbox">
                 <input matInput [(ngModel)]="newData.Bio" type="text" placeholder="What are you thinking about?"
-                    name="Bio">
+                    name="Bio" class = "bio-textbox" maxlength="40">
             </mat-form-field>
             <button class="edit-account-buttons" mat-raised-button (click)="updateBio()" color="primary">
                 Update Bio

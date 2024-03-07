@@ -15,16 +15,15 @@ interface ProfilePicture {
 })
 export class ProfilePictureComponent {
   avatars: ProfilePicture[] = [
-    { name: 'Avatar 1', url: '../../../assets/ProfilePictures/Avatar1.png' },
-    { name: 'Avatar 2', url: '../../../assets/ProfilePictures/Avatar2.png' },
-    { name: 'Avatar 3', url: '../../../assets/ProfilePictures/Avatar3.png' },
-    { name: 'Avatar 4', url: '../../../assets/ProfilePictures/Avatar4.png' },
-    { name: 'Avatar 5', url: '../../../assets/ProfilePictures/Avatar5.png' },
-    { name: 'Avatar 6', url: '../../../assets/ProfilePictures/Avatar6.png' },
-    { name: 'Avatar 7', url: '../../../assets/ProfilePictures/Avatar7.png' },
-    { name: 'Avatar 8', url: '../../../assets/ProfilePictures/Avatar8.png' },
-    { name: 'Avatar 9', url: '../../../assets/ProfilePictures/Avatar9.png' },
-    { name: 'Avatar 10', url: '../../../assets/ProfilePictures/Avatar10.png' }
+    { name: 'Avatar 1', url: 'https://jeriflix.netlify.app/Avatar1.0b9816be.png' },
+    { name: 'Avatar 2', url: 'https://jeriflix.netlify.app/Avatar2.3620682d.png' },
+    { name: 'Avatar 3', url: 'https://jeriflix.netlify.app/Avatar3.179ab953.png' },
+    { name: 'Avatar 4', url: 'https://jeriflix.netlify.app/Avatar4.aebfdb69.png' },
+    { name: 'Avatar 5', url: 'https://jeriflix.netlify.app/Avatar5.f08403c7.png' },
+    { name: 'Avatar 6', url: 'https://jeriflix.netlify.app/Avatar6.0c838743.png' },
+    { name: 'Avatar 7', url: 'https://jeriflix.netlify.app/Avatar7.d0555ee1.png' },
+    { name: 'Avatar 8', url: 'https://jeriflix.netlify.app/Avatar8.426d9a2d.png' },
+    { name: 'Avatar 9', url: 'https://jeriflix.netlify.app/Avatar9.5e531ae0.png' }
   ];
 
   selectedAvatar: ProfilePicture | null = null;
@@ -47,7 +46,8 @@ export class ProfilePictureComponent {
     this.loading = true;
     this.selectedAvatar = avatar;
     console.log(avatar);
-    this.fetchAPI.editProfilePicture(this.user.Username, avatar).subscribe((response) => {
+    console.log(this.avatars);
+    this.fetchAPI.editProfilePicture(this.user.Username, avatar.url).subscribe((response) => {
       localStorage.setItem('user', response);
       this.dialogRef.close();
       this.loading = false;

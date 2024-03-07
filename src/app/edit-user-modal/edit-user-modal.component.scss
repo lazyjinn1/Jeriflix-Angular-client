@@ -1,5 +1,7 @@
 .edit-form{
     padding: 15px;
+    display: grid;
+    grid-template-columns: auto auto;
 }
 
 #edit-buttons-section{
@@ -10,4 +12,14 @@
 .edit-account-buttons{
     padding: 10px;
     margin: 5px;
+}
+
+.bio-textbox{
+    width: 350px;   
+}
+
+.bio-textbox input{
+    padding: 5px 10px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
 }

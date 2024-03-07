@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { fetchJeriflixAPI } from '../fetch-api-data.service'
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ export class CarouselComponent implements OnInit {
   loading: boolean = true;
   sideNavStates: boolean[] = [];
   sideDrawersOpened: boolean = false;
+  selected: boolean = false;
   movies: any[] = [];
   favoriteMovies: string[] = [];
   movie: any;
@@ -25,7 +26,6 @@ export class CarouselComponent implements OnInit {
   filteredMovies: any[] = [];
   firstFilteredMovie: any;
   specificMovieTitle: any;
-
 
   constructor(
     public fetchAPI: fetchJeriflixAPI,
@@ -71,6 +71,7 @@ export class CarouselComponent implements OnInit {
     if (userString) {
       this.user = JSON.parse(userString);
       this.getMovies();
+      this.getFavoriteMovies();
       this.loading = false;
     }
   }
@@ -85,6 +86,22 @@ export class CarouselComponent implements OnInit {
     });
   };
 
+  getFavoriteMovies(): void {
+    this.fetchAPI.viewUserService(this.user.Username).subscribe(
+      (response: any) => {
+        if (response.user && response.user.FavoriteMovies) {
+          this.favoriteMovies = response.user.FavoriteMovies;
+        } else {
+          this.favoriteMovies = [];
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching user data:', error);
+        this.favoriteMovies = [];
+      }
+    );
+  }
+
   openMovieDialog(movieName: string, index: number): void {
     this.fetchAPI.getOneMovieService(movieName).subscribe((response: any) => {
       this.movie = response;
@@ -92,6 +109,7 @@ export class CarouselComponent implements OnInit {
       this.sideDrawersOpened = true;
     })
   }
+
 
   goToUserProfile(): void {
     this.router.navigate(['profile']);
@@ -107,30 +125,46 @@ export class CarouselComponent implements OnInit {
     this.sideNavStates.fill(false);
   }
 
+  toggleFavorite(movieID: string) {
+    const isFavorite = this.isFavoriteMovie(movieID);
+    if (isFavorite) {
+      this.removeFavoriteMovie(movieID);
+      this.favoriteMovies = this.favoriteMovies.filter(id => id !== movieID);
+    } else {
+      this.addToFavoriteMovies(movieID);
+      this.favoriteMovies.push(movieID);
+    }
+  }
+
+
   isFavoriteMovie(movieID: string): boolean {
-    return this.user.FavoriteMovies.indexOf(movieID) >= 0;
+    if (this.user.FavoriteMovies.indexOf(movieID) >= 0) {
+      return true;
+    } else {
+      return false;
+    };
   }
 
   addToFavoriteMovies(movieID: string): void {
     this.favoriteMovies.push(movieID);
     this.fetchAPI.addMovieToFavoritesService(movieID).subscribe((response: any) => {
       this.snackBar.open(movieID + ' has been added to favorites', 'OK', { duration: 2000 });
-    },(error: any) => {
-        console.error('Failed to add movie to favorites:', error);
-        this.snackBar.open('Failed to add movie to favorites', 'OK', { duration: 2000 });
-      }
+    }, (error: any) => {
+      console.error('Failed to add movie to favorites:', error);
+      this.snackBar.open('Failed to add movie to favorites', 'OK', { duration: 2000 });
+    }
     );
   }
 
   removeFavoriteMovie(movieID: string): void {
     const index = this.user.FavoriteMovies.indexOf(movieID);
     this.favoriteMovies.splice(index, 1);
-    this.fetchAPI.deleteMovieFromFavoritesService(movieID).subscribe(() => {
-      this.snackBar.open(movieID + ' has been removed from favorites', 'OK', {duration: 2000})
-    },(error: any) => {
-        console.error('Failed to remove movie from favorites:', error);
-        this.snackBar.open('Failed to remove movie from favorites', 'OK', { duration: 2000 });
-      }
+    this.fetchAPI.deleteMovieFromFavoritesService(movieID).subscribe((response: any) => {
+      this.snackBar.open(movieID + ' has been removed from favorites', 'OK', { duration: 2000 })
+    }, (error: any) => {
+      console.error('Failed to remove movie from favorites:', error);
+      this.snackBar.open('Failed to remove movie from favorites', 'OK', { duration: 2000 });
+    }
     );
   }
 
