@@ -26,13 +26,11 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   customOptions: OwlOptions = {
-    dots: true,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: true,
     slideTransition: 'linear',
     navSpeed: 200,
-    navText: ['Previous', 'Next'],
     margin: 0,
     center: true,
     slideBy: 1,
@@ -41,7 +39,7 @@ export class ProfileComponent implements OnInit {
     autoWidth: false,
     animateOut: true,
     animateIn: true,
-    items: 2,
+    items: 3,
     responsive: {
       0: {
         items: 1

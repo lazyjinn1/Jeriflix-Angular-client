@@ -72,7 +72,6 @@ export class CarouselComponent implements OnInit {
       this.user = JSON.parse(userString);
       this.getMovies();
       this.getFavoriteMovies();
-      this.loading = false;
     }
   }
 
@@ -87,26 +86,30 @@ export class CarouselComponent implements OnInit {
   };
 
   getFavoriteMovies(): void {
-    this.fetchAPI.viewUserService(this.user.Username).subscribe(
-      (response: any) => {
-        if (response.user && response.user.FavoriteMovies) {
-          this.favoriteMovies = response.user.FavoriteMovies;
-        } else {
-          this.favoriteMovies = [];
-        }
-      },
+    this.fetchAPI.viewUserService(this.user.Username).subscribe((response: any) => {
+      let fixedResponse = (JSON.parse(response));
+      if (fixedResponse && fixedResponse.FavoriteMovies) {
+        this.favoriteMovies = fixedResponse.FavoriteMovies;
+        this.loading = false;
+      } else {
+        this.favoriteMovies = [];
+        this.loading = false;
+      }
+    },
       (error: any) => {
         console.error('Error fetching user data:', error);
         this.favoriteMovies = [];
+        this.loading = false;
       }
     );
   }
 
-  openMovieDialog(movieName: string, index: number): void {
+  openMovieDialog(movieName: string, index: number, movieID: string): void {
     this.fetchAPI.getOneMovieService(movieName).subscribe((response: any) => {
       this.movie = response;
       this.sideNavStates = this.sideNavStates.map((state, i) => i === index);
       this.sideDrawersOpened = true;
+      this.isFav(movieID);
     })
   }
 
@@ -126,46 +129,40 @@ export class CarouselComponent implements OnInit {
   }
 
   toggleFavorite(movieID: string) {
-    const isFavorite = this.isFavoriteMovie(movieID);
-    if (isFavorite) {
+    if (this.isFav(movieID) === true) {
       this.removeFavoriteMovie(movieID);
-      this.favoriteMovies = this.favoriteMovies.filter(id => id !== movieID);
     } else {
-      this.addToFavoriteMovies(movieID);
-      this.favoriteMovies.push(movieID);
+      this.addToFavoriteMovies(movieID)
     }
   }
 
-
-  isFavoriteMovie(movieID: string): boolean {
-    if (this.user.FavoriteMovies.indexOf(movieID) >= 0) {
-      return true;
-    } else {
+  isFav(movieID: string) {
+    if (!this.user.FavoriteMovies.includes(movieID)) {
       return false;
-    };
+    } else {
+      return true;
+    }
   }
 
   addToFavoriteMovies(movieID: string): void {
-    this.favoriteMovies.push(movieID);
     this.fetchAPI.addMovieToFavoritesService(movieID).subscribe((response: any) => {
+      this.favoriteMovies.push(movieID);
       this.snackBar.open(movieID + ' has been added to favorites', 'OK', { duration: 2000 });
     }, (error: any) => {
       console.error('Failed to add movie to favorites:', error);
-      this.snackBar.open('Failed to add movie to favorites', 'OK', { duration: 2000 });
-    }
-    );
+      this.snackBar.open('Failed to add movie to favorites: ' + error, 'OK', { duration: 2000 });
+    });
   }
 
   removeFavoriteMovie(movieID: string): void {
-    const index = this.user.FavoriteMovies.indexOf(movieID);
-    this.favoriteMovies.splice(index, 1);
     this.fetchAPI.deleteMovieFromFavoritesService(movieID).subscribe((response: any) => {
+      const index = this.user.FavoriteMovies.indexOf(movieID);
+      this.favoriteMovies.splice(index, 1);
       this.snackBar.open(movieID + ' has been removed from favorites', 'OK', { duration: 2000 })
     }, (error: any) => {
       console.error('Failed to remove movie from favorites:', error);
-      this.snackBar.open('Failed to remove movie from favorites', 'OK', { duration: 2000 });
-    }
-    );
+      this.snackBar.open('Failed to remove movie from favorites ' + error, 'OK', { duration: 2000 });
+    });
   }
 
   onTypedTextChanged(typedText: string): void {
@@ -188,10 +185,8 @@ export class CarouselComponent implements OnInit {
           console.error("No exact match found for the typed movie title.");
         }
       } else {
-        console.error("No movies found for the typed text.");
       }
     } else {
-      console.error("Typed text is too short or empty.");
     }
   }
 

@@ -1,5 +1,6 @@
 <app-typed-text (typedTextChanged)="onTypedTextChanged($event)"></app-typed-text>
-
+<mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading"
+  mode="indeterminate"></mat-progress-spinner>
 <div class="Movie-Body">
   <div class="Jeriflix-Title">
     <h1 id="Jeriflix-Title">Welcome to Jeriflix</h1>
@@ -12,8 +13,7 @@
     <button mat-menu-item (click)="goToUserProfile()">Profile</button>
     <button mat-menu-item (click)="logOut()">Logout</button>
   </mat-menu>
-  <mat-progress-spinner style="margin:0 auto;" class="spinner" *ngIf="loading"
-    mode="indeterminate"></mat-progress-spinner>
+
 
   <owl-carousel-o #owlCarousel class="carousel-container" [options]="customOptions" (changed)="onSlideChanged()">
     <ng-container *ngFor="let movie of movies let i = index">
@@ -21,21 +21,16 @@
       <ng-template carouselSlide [id]="movie._id">
         <mat-drawer-container id="mat-drawer-container" class="slide-{{movie._id}}" hasBackdrop="false">
           <mat-drawer-content [ngClass]="{'sideDrawersOut': sideDrawersOpened}">
-            <button class="movie-button" (click)="openMovieDialog(movie.Title, i)">
+            <button class="movie-button" (click)="openMovieDialog(movie.Title, i, movie._id)">
               <img class="movie-button" [src]="movie?.ImagePath" [alt]="movie?.Title" [title]="movie?.Title">
             </button>
           </mat-drawer-content>
 
-          <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]"
-            autoFocus="false">
+          <mat-drawer position="end" class="rightDrawer fadeIn" mode="push" [opened]="sideNavStates[i]" autoFocus="false">
             <h1>{{movie?.Title}}
-              <button mat-icon-button
-                (click)="isFavoriteMovie(movie._id) ? removeFavoriteMovie(movie._id) : addToFavoriteMovies(movie._id)"
-                [ngClass]="isFavoriteMovie(movie._id) ? 'mat-flat-button' : 'mat-icon-button'">
-                <mat-icon *ngIf="isFavoriteMovie(movie._id)" 
-                  (click)="toggleFavorite(movie._id)">favorite</mat-icon>
-                <mat-icon *ngIf="!isFavoriteMovie(movie._id)"
-                  (click)="toggleFavorite(movie._id)">favorite_border</mat-icon>
+              <button mat-icon-button (click)="toggleFavorite(movie._id)">
+                <mat-icon *ngIf="isFav(movie._id) as isFav" fontIcon="favorite"></mat-icon>
+                <mat-icon *ngIf="!isFav(movie._id) as isFav" fontIcon="favorite_border"></mat-icon>
               </button>
             </h1>
             <p>{{movie?.Description}}</p> <br>
