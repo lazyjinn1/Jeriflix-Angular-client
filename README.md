@@ -20,9 +20,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Screenshots
 ![plot](./assets/screenshots/screenshot1.png)
-![plot](https://github.com/lazyjinn1/Jeriflix-Angular-client/blob/master/assets/gifs/GIF1.gif)
 ![plot](./assets/screenshots/screenshot2.png)
-![plot](./assets/screenshots/screenshot3.png)
+![plot](https://github.com/lazyjinn1/Jeriflix-Angular-client/blob/master/assets/gifs/GIF1.gif)
+
 
 ## Features
 
