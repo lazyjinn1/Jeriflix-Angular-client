@@ -21,6 +21,7 @@ export class CarouselComponent implements OnInit {
   selected: boolean = false;
   movies: any[] = [];
   favoriteMovies: string[] = [];
+  isFavMovie: boolean[] = [];
   movie: any;
   user: any;
   filteredMovies: any[] = [];
@@ -110,6 +111,11 @@ export class CarouselComponent implements OnInit {
       this.sideNavStates = this.sideNavStates.map((state, i) => i === index);
       this.sideDrawersOpened = true;
       this.isFav(movieID);
+      if (this.isFav(movieID) === true) {
+        this.isFavMovie[index] = true;
+      } else if (this.isFav(movieID) === false) {
+        this.isFavMovie[index] = false;
+      }
     })
   }
 
@@ -128,39 +134,41 @@ export class CarouselComponent implements OnInit {
     this.sideNavStates.fill(false);
   }
 
-  toggleFavorite(movieID: string) {
+  toggleFavorite(movieID: string, i: number, movieTitle: string) {
     if (this.isFav(movieID) === true) {
-      this.removeFavoriteMovie(movieID);
-    } else {
-      this.addToFavoriteMovies(movieID)
+      this.isFavMovie[i] = false;
+      this.removeFavoriteMovie(movieID, movieTitle);
+    } else if (this.isFav(movieID) === false) {
+      this.isFavMovie[i] = true;
+      this.addToFavoriteMovies(movieID, movieTitle)
     }
   }
 
   isFav(movieID: string) {
-    if (!this.user.FavoriteMovies.includes(movieID)) {
-      return false;
-    } else {
+    if (this.user.FavoriteMovies.includes(movieID)) {
       return true;
+    } else {
+      return false;
     }
   }
 
-  addToFavoriteMovies(movieID: string): void {
+  addToFavoriteMovies(movieID: string, movieTitle: string): void {
     this.fetchAPI.addMovieToFavoritesService(movieID).subscribe((response: any) => {
       this.favoriteMovies.push(movieID);
-      this.snackBar.open(movieID + ' has been added to favorites', 'OK', { duration: 2000 });
+      this.user.FavoriteMovies.push(movieID);
+      this.snackBar.open(movieTitle + ' has been added to favorites', 'OK', { duration: 2000 });
     }, (error: any) => {
-      console.error('Failed to add movie to favorites:', error);
       this.snackBar.open('Failed to add movie to favorites: ' + error, 'OK', { duration: 2000 });
     });
   }
 
-  removeFavoriteMovie(movieID: string): void {
+  removeFavoriteMovie(movieID: string, movieTitle: string): void {
     this.fetchAPI.deleteMovieFromFavoritesService(movieID).subscribe((response: any) => {
       const index = this.user.FavoriteMovies.indexOf(movieID);
       this.favoriteMovies.splice(index, 1);
-      this.snackBar.open(movieID + ' has been removed from favorites', 'OK', { duration: 2000 })
+      this.user.FavoriteMovies.splice(index, 1);
+      this.snackBar.open(movieTitle + ' has been removed from favorites', 'OK', { duration: 2000 })
     }, (error: any) => {
-      console.error('Failed to remove movie from favorites:', error);
       this.snackBar.open('Failed to remove movie from favorites ' + error, 'OK', { duration: 2000 });
     });
   }

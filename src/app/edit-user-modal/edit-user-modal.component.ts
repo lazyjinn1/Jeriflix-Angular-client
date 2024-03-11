@@ -31,7 +31,6 @@ export class EditUserModalComponent {
 
   getProfile(): void {
     const userString = localStorage.getItem('user');
-    console.log(userString);
     if (userString) {
       this.user = JSON.parse(userString);
     }
@@ -75,7 +74,6 @@ export class EditUserModalComponent {
   }
   updateEmail(): void {
     this.loading = true;
-    console.log(this.user.Username);
     if (this.newData.Email) {
       this.fetchAPI.editEmail(this.user.Username, this.newData.Email).subscribe((response) => {
         this.loading = false;
@@ -94,7 +92,6 @@ export class EditUserModalComponent {
   }
   updateBirthday(): void {
     this.loading = true;
-    console.log(this.user.Username);
     if (this.newData.Birthday) {
       this.fetchAPI.editBirthday(this.user.Username, this.newData.Birthday).subscribe((response) => {
         this.loading = false;
@@ -113,7 +110,6 @@ export class EditUserModalComponent {
   }
   updateBio(): void {
     this.loading = true;
-    console.log(this.user.Username);
     if (this.newData.Bio) {
       this.fetchAPI.editBio(this.user.Username, this.newData.Bio).subscribe((response) => {
         this.loading = false;

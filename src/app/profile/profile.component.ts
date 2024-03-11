@@ -67,7 +67,6 @@ export class ProfileComponent implements OnInit {
 
   getProfile(): void {
     const userString = localStorage.getItem('user');
-    console.log(userString);
     if (userString) {
       this.user = JSON.parse(userString);
     }

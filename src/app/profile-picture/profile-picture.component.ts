@@ -45,8 +45,6 @@ export class ProfilePictureComponent {
   selectAvatar(avatar: ProfilePicture): void {
     this.loading = true;
     this.selectedAvatar = avatar;
-    console.log(avatar);
-    console.log(this.avatars);
     this.fetchAPI.editProfilePicture(this.user.Username, avatar.url).subscribe((response) => {
       localStorage.setItem('user', response);
       this.dialogRef.close();
