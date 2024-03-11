@@ -20,10 +20,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Screenshots
 ![plot](./assets/screenshots/screenshot1.png)
+![plot](./assets/gifs/GIF1.png)
 ![plot](./assets/screenshots/screenshot2.png)
 ![plot](./assets/screenshots/screenshot3.png)
-![plot](./assets/screenshots/screenshot4.png)
-![plot](./assets/screenshots/screenshot5.png)
 
 ## Features
 
