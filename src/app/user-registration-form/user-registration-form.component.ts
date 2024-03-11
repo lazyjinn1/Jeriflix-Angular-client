@@ -29,7 +29,11 @@ export class UserRegistrationFormComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  /**
+    * Registers a new user by calling the userRegistrationService from the fetchApiData service.
+    * If registration is successful, closes the modal and displays a success message.
+    * If registration fails, displays an error message.
+    */
   // This is the function responsible for sending the form inputs to the backend
   registerUser(): void {
     this.loading = true;

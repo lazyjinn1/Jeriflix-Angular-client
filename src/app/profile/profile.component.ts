@@ -54,17 +54,25 @@ export class ProfileComponent implements OnInit {
     nav: true
   }
 
-
+  /**
+     * Initializes the component by loading profile data.
+     */
   ngOnInit(): void {
     this.loadProfileData();
   }
 
+  /**
+   * Loads profile data including user profile and movies.
+   */
   loadProfileData(): void {
     this.getProfile();
     this.getMovies();
     this.loading = false;
   }
 
+  /**
+   * Retrieves user profile data from localStorage and assigns it to the user property.
+   */
   getProfile(): void {
     const userString = localStorage.getItem('user');
     if (userString) {
@@ -72,6 +80,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * Retrieves movies data from the API and updates the component accordingly.
+   */
   getMovies(): void {
     this.loading = true;
     this.fetchAPI.getAllMoviesService().subscribe((response: any) => {
@@ -81,14 +92,24 @@ export class ProfileComponent implements OnInit {
     });
   };
 
+  /**
+   * Retrieves favorite movies for the current user and updates the favoriteMovies property.
+   */
   getFavoriteMovies(): void {
     this.favoriteMovies = this.movies.filter(movies => this.user.FavoriteMovies.includes(movies._id));
   }
 
+  /**
+   * Redirects the user to the movies page.
+   */
   openMovieList(): void {
     this.router.navigate(['movies']);
   }
 
+  /**
+   * Opens a dialog to allow the user to edit their profile.
+   * After the dialog is closed, reloads profile data.
+   */
   updateUser(): void {
     this.dialogRef.open(EditUserModalComponent, {
       width: '400px',
@@ -98,12 +119,18 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  logOut(): void {
+  /**
+   * Logs the user out by removing user data from localStorage and redirecting to the welcome page.
+   */
+    logOut(): void {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     this.router.navigate(['welcome']);
   }
 
+  /**
+   * Reloads profile data.
+   */
   onUpdate(): void {
     this.loadProfileData();
   }

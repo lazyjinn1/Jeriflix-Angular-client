@@ -11,6 +11,11 @@ export class TypedTextComponent {
 
   @Output() typedTextChanged = new EventEmitter<string>();
 
+  /**
+   * Listens for keyboard events and updates typedText accordingly.
+   * Emits the typed text whenever it changes.
+   * @param event The keyboard event.
+   */
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Backspace') {

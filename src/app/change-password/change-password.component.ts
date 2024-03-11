@@ -26,14 +26,24 @@ export class ChangePasswordComponent {
     this.passwordConfirmed = '';
   }
 
-  ngOnInit(): void { 
+  /**
+   * Initializes the component by calling the getProfile method.
+   */
+  ngOnInit(): void {
     this.getProfile();
   }
 
+  /**
+   * Updates the user data in localStorage with the provided new data.
+   * @param newData The new user data to be stored in localStorage.
+   */
   updateUser(newData: any): void {
     localStorage.setItem('user', newData);
   }
 
+  /**
+   * Retrieves user profile data from localStorage and assigns it to the user property.
+   */
   getProfile(): void {
     const userString = localStorage.getItem('user');
     if (userString) {
@@ -41,6 +51,10 @@ export class ChangePasswordComponent {
     }
   }
 
+ /**
+   * Validates and updates the user's password.
+   * Compares the new password with the confirmed password and invokes the updatePassword method if they match.
+   */
   confirmAndUpdatePassword(): void {
     if (this.newPassword !== this.passwordConfirmed) {
       this.snackBar.open('New password and confirmed password do not match', 'OK', { duration: 2000 });
@@ -49,6 +63,10 @@ export class ChangePasswordComponent {
     this.updatePassword(this.newPassword);
   }
 
+  /**
+   * Updates the user's password.
+   * @param newPassword The new password to set for the user.
+  */
   updatePassword(newPassword: any): void {
     this.loading = true;
     this.fetchAPI.editPassword(this.user.Username, newPassword).subscribe((response) => {

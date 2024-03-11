@@ -65,7 +65,10 @@ export class CarouselComponent implements OnInit {
     nav: true,
   }
 
-
+  /**
+   * Initializes component by setting loading to true and retrieving user data from localStorage.
+   * If user data exists, retrieves movies and favorite movies.
+   */
   ngOnInit(): void {
     this.loading = true;
     const userString = localStorage.getItem('user');
@@ -76,6 +79,9 @@ export class CarouselComponent implements OnInit {
     }
   }
 
+  /**
+   * Retrieves movies data from the API and updates the component accordingly.
+   */
   getMovies(): void {
     this.loading = true;
     this.fetchAPI.getAllMoviesService().subscribe((response: any) => {
@@ -86,6 +92,9 @@ export class CarouselComponent implements OnInit {
     });
   };
 
+  /**
+   * Retrieves favorite movies data for the current user from the API and updates the component accordingly.
+   */
   getFavoriteMovies(): void {
     this.fetchAPI.viewUserService(this.user.Username).subscribe((response: any) => {
       let fixedResponse = (JSON.parse(response));
@@ -97,6 +106,11 @@ export class CarouselComponent implements OnInit {
         this.loading = false;
       }
     },
+      /**
+       * Handles errors that occur during the retrieval of favorite movies data.
+       * Logs the error and updates the component accordingly.
+       * @param error The error that occurred during the API call.
+       */
       (error: any) => {
         console.error('Error fetching user data:', error);
         this.favoriteMovies = [];
@@ -105,6 +119,13 @@ export class CarouselComponent implements OnInit {
     );
   }
 
+  /**
+   * Opens a dialog displaying details of the selected movie.
+   * Retrieves movie details from the API and updates the component accordingly.
+   * @param movieName The name of the movie to retrieve.
+   * @param index The index of the movie in the list.
+   * @param movieID The ID of the movie to retrieve.
+   */
   openMovieDialog(movieName: string, index: number, movieID: string): void {
     this.fetchAPI.getOneMovieService(movieName).subscribe((response: any) => {
       this.movie = response;
@@ -119,21 +140,37 @@ export class CarouselComponent implements OnInit {
     })
   }
 
-
+  /**
+   * Redirects the user to the profile page.
+   */
   goToUserProfile(): void {
     this.router.navigate(['profile']);
   }
 
+  /**
+   * Logs the user out by clearing user data from localStorage and redirects to the welcome page.
+   */
   logOut(): void {
     localStorage.setItem('user', '');
     localStorage.setItem('token', '');
     this.router.navigate(['welcome']);
   }
 
+  /**
+   * Resets the sideNavStates array to false.
+   * Called when the slide changes to close any open side drawers.
+   */
   onSlideChanged(): void {
     this.sideNavStates.fill(false);
   }
 
+  /**
+   * Toggles the favorite status of a movie.
+   * If the movie is already a favorite, removes it from favorites; otherwise, adds it to favorites.
+   * @param movieID The ID of the movie to toggle favorite status.
+   * @param i The index of the movie in the list.
+   * @param movieTitle The title of the movie.
+   */
   toggleFavorite(movieID: string, i: number, movieTitle: string) {
     if (this.isFav(movieID) === true) {
       this.isFavMovie[i] = false;
@@ -144,6 +181,11 @@ export class CarouselComponent implements OnInit {
     }
   }
 
+  /**
+   * Checks if the movie with the specified ID is among the user's favorite movies.
+   * @param movieID The ID of the movie to check.
+   * @returns True if the movie is in the user's favorites, otherwise false.
+   */
   isFav(movieID: string) {
     if (this.user.FavoriteMovies.includes(movieID)) {
       return true;
@@ -152,6 +194,11 @@ export class CarouselComponent implements OnInit {
     }
   }
 
+  /**
+   * Adds a movie to the user's favorite movies.
+   * @param movieID The ID of the movie to add to favorites.
+   * @param movieTitle The title of the movie being added.
+   */
   addToFavoriteMovies(movieID: string, movieTitle: string): void {
     this.fetchAPI.addMovieToFavoritesService(movieID).subscribe((response: any) => {
       this.favoriteMovies.push(movieID);
@@ -162,6 +209,11 @@ export class CarouselComponent implements OnInit {
     });
   }
 
+  /**
+   * Removes a movie from the user's favorite movies.
+   * @param movieID The ID of the movie to remove from favorites.
+   * @param movieTitle The title of the movie being removed.
+   */
   removeFavoriteMovie(movieID: string, movieTitle: string): void {
     this.fetchAPI.deleteMovieFromFavoritesService(movieID).subscribe((response: any) => {
       const index = this.user.FavoriteMovies.indexOf(movieID);
@@ -173,11 +225,19 @@ export class CarouselComponent implements OnInit {
     });
   }
 
+  /**
+   * Updates the typedText property and directs to the movie page based on the typed text.
+   * @param typedText The text typed by the user.
+   */
   onTypedTextChanged(typedText: string): void {
     this.typedText = typedText;
     this.directToMovie(typedText);
   }
 
+  /**
+   * Directs to the movie page based on the typed text.
+   * @param typedText The text typed by the user.
+   */
   directToMovie(typedText: string): void {
     if (!!this.typedText && this.typedText.length >= 2) {
       this.filteredMovies = this.movies.filter(movies =>
@@ -192,12 +252,14 @@ export class CarouselComponent implements OnInit {
         } else {
           console.error("No exact match found for the typed movie title.");
         }
-      } else {
       }
-    } else {
     }
   }
 
+  /**
+   * Filters the list of movies based on the typed text.
+   * Updates the filteredMovies property accordingly.
+   */
   filterMovies(): void {
     if (!!this.typedText) {
       this.filteredMovies = this.movies.filter(movie =>

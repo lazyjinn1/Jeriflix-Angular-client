@@ -39,9 +39,20 @@ export class ProfilePictureComponent {
     this.user = userString && JSON.parse(userString);
     this.loading = false;
   }
+
+   /**
+   * Updates the user data in localStorage with the provided new data.
+   * @param newData The new user data to be stored in localStorage.
+   */
   updateUser(newData: any): void {
     localStorage.setItem('user', newData);
   }
+
+  /**
+   * Handles the selection of a profile picture.
+   * Updates the selectedAvatar property and sends a request to the API to update the user's profile picture.
+   * @param avatar The selected avatar.
+   */
   selectAvatar(avatar: ProfilePicture): void {
     this.loading = true;
     this.selectedAvatar = avatar;

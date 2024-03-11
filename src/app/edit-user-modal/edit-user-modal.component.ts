@@ -25,10 +25,16 @@ export class EditUserModalComponent {
     private router: Router,
   ) { }
 
-  ngOnInit(): void { 
+  /**
+   * Initializes the component by calling the getProfile method.
+   */
+  ngOnInit(): void {
     this.getProfile();
   }
 
+  /**
+   * Retrieves user profile data from localStorage and assigns it to the user property.
+   */
   getProfile(): void {
     const userString = localStorage.getItem('user');
     if (userString) {
@@ -36,6 +42,9 @@ export class EditUserModalComponent {
     }
   }
 
+  /**
+   * Opens a dialog to allow the user to change their profile picture.
+   */
   openProfilePictureMenu(): void {
     this.dialog.open(ProfilePictureComponent, {
       width: '400px',
@@ -43,6 +52,9 @@ export class EditUserModalComponent {
     });
   }
 
+  /**
+   * Opens a dialog to allow the user to change their password.
+   */
   openPasswordMenu(): void {
     this.dialog.open(ChangePasswordComponent, {
       width: '400px',
@@ -50,10 +62,17 @@ export class EditUserModalComponent {
     })
   }
 
+  /**
+   * Updates the user data in localStorage with the provided new data.
+   * @param newData The new user data to be stored in localStorage.
+   */
   updateUser(newData: any): void {
     localStorage.setItem('user', newData);
   }
 
+  /**
+   * Updates the username of the current user.
+   */
   updateUserName(): void {
     this.loading = true;
     if (this.newData.Username) {
@@ -72,6 +91,10 @@ export class EditUserModalComponent {
       return;
     }
   }
+
+  /**
+   * Updates the email of the current user.
+   */
   updateEmail(): void {
     this.loading = true;
     if (this.newData.Email) {
@@ -90,6 +113,10 @@ export class EditUserModalComponent {
       return;
     }
   }
+
+  /**
+   * Updates the birthday of the current user.
+   */
   updateBirthday(): void {
     this.loading = true;
     if (this.newData.Birthday) {
@@ -108,6 +135,10 @@ export class EditUserModalComponent {
       return;
     }
   }
+
+  /**
+   * Updates the biography of the current user.
+   */
   updateBio(): void {
     this.loading = true;
     if (this.newData.Bio) {
@@ -127,6 +158,9 @@ export class EditUserModalComponent {
     }
   }
 
+  /**
+   * Deletes the current user's account.
+   */
   deleteUser(): void {
     if (confirm('Are you sure you want to delete your account?')) {
       this.loading = true;

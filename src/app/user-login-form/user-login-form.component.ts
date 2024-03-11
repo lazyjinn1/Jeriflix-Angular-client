@@ -30,9 +30,17 @@ export class UserLoginFormComponent implements OnInit{
     private router: Router
   ) {}
 
+  /**
+   * initializes nothing
+   */
   ngOnInit(): void {
   }
 
+   /**
+   * Logs in the user by calling the userLoginService from the fetchApiData service.
+   * If login is successful, stores user data and token in localStorage and navigates to the movies page.
+   * If login fails, displays an error message.
+   */
   logInUser(): void {
     this.loading = true;
     this.fetchApiData.userLoginService(this.userData).subscribe((response) => {
